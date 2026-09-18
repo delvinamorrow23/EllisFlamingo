@@ -95,6 +95,9 @@ h3{font-family:var(--disp);font-weight:600;font-size:1.1rem;margin:26px 0 10px}
 .upnext .wd{display:block;font-size:.75rem;color:var(--muted)}
 .upnext .v{display:block;font-family:var(--disp);font-weight:600;font-size:1.25rem}
 .upnext .pe{display:block;font-size:.7rem;color:var(--green);font-weight:700;min-height:1em}
+.upnext button.off{background:color-mix(in srgb,var(--closed) 14%,var(--surface));border-color:transparent}
+.upnext button.off .v{font-size:1rem;color:var(--muted)}
+.upnext button.off .pe{color:var(--muted);font-weight:400}
 
 .copybox{margin-top:18px;background:var(--surface);border:1px dashed var(--line);border-radius:16px;padding:12px 14px}
 .copybox p{margin:0 0 8px;font-size:.95rem}
@@ -126,6 +129,17 @@ td.pe-col,th.pe-col{box-shadow:inset 0 0 0 2px var(--green)}
 .prose ul{padding-left:1.2em}
 .flag{background:var(--surface);border-left:4px solid var(--flamingo);border-radius:0 12px 12px 0;padding:10px 14px;margin:10px 0}
 .flag strong{display:block}
+.fb{display:flex;align-items:center;gap:10px;margin-top:14px;padding:10px 14px;border-radius:16px;background:var(--surface);border:1px solid var(--line);font-size:.92rem}
+.fb.done{color:var(--muted)}
+.fbBtn{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--bg);font-size:1.1rem;line-height:1}
+.fbBtn.yes{color:var(--green)} .fbBtn.no{color:var(--closed)}
+.fbBtn:hover{border-color:currentColor}
+.form{display:grid;gap:12px}
+.form label{display:grid;gap:5px;font-weight:700;font-size:.9rem}
+.form input,.form select{padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:var(--surface);font-weight:400}
+.form-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.code{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px;overflow-x:auto;font-size:.82rem;white-space:pre-wrap;word-break:break-word;min-height:1em}
+.preview{background:var(--green-soft);border-radius:10px;padding:6px 10px;font-size:.85rem;color:var(--ink)}
 footer{margin-top:32px;font-size:.8rem;color:var(--muted)}
 footer a{color:var(--green)}
 [hidden]{display:none!important}
@@ -157,6 +171,7 @@ footer a{color:var(--green)}
       <label class="pill">Pick a date <input type="date" id="picker" min="2026-08-31" max="2027-06-04"></label>
     </div>
     <div id="hero"></div>
+    <div id="feedback"></div>
     <div id="dayDetail"></div>
     <h3>Coming up</h3>
     <div class="upnext" id="upnext"></div>
@@ -208,10 +223,39 @@ footer a{color:var(--green)}
     <div class="flag"><strong>Dec 18 and Jun 4 have no day numbers.</strong>Dec 18 is a half day, and Jun 4 is the last day of school.</div>
     <div class="flag"><strong>Apr 9 (Day 4) is shaded gray</strong> on the printout, and the key doesn't say what gray means.</div>
     <div class="flag"><strong>Lunch time.</strong>The schedule sheet's time labels are slightly out of line. This app shows lunch at 11:00–11:25.</div>
+    <p><button class="pill" id="openAdmin">Update the app</button></p>
+  </section>
+
+  <section id="view-admin" hidden>
+    <h3 style="margin-top:0">Update a date</h3>
+    <p style="font-size:.95rem;color:var(--muted)">Fill this in, tap Preview to check it, then copy the line and paste it into <code>index.html</code> on GitHub, inside the <code>UPDATES</code> braces near the top of the script.</p>
+    <div class="form">
+      <label>Date<input type="date" id="aDate" min="2026-08-31" max="2027-06-04"></label>
+      <label>What's happening
+        <select id="aKind">
+          <option value="as">LAB day runs as Day…</option>
+          <option value="day">This day is really Day…</option>
+          <option value="closed">No school</option>
+          <option value="special">Special schedule</option>
+          <option value="note">Just add a note</option>
+        </select>
+      </label>
+      <label id="aNumWrap">Day number
+        <select id="aNum">${""}</select>
+      </label>
+      <label>Note or reason<input type="text" id="aWhy" placeholder="Announced in the Oct 2 newsletter"></label>
+      <div class="form-actions">
+        <button class="btn" id="aPreview">Preview on this phone</button>
+        <button class="pill" id="aCopy">Copy line for GitHub</button>
+      </div>
+      <pre id="aOut" class="code"></pre>
+      <p id="aLocalList" style="font-size:.9rem;color:var(--muted)"></p>
+      <button class="pill" id="aClear">Clear all previews on this phone</button>
+    </div>
   </section>
 
   <footer>
-    Built by a Flamingo parent from the school's draft 2026–27 Lower School day calendar (6/17/2026), the Flamingos schedule sheet, and teacher emails. It is not an official Ellis tool. MyEllis, Seesaw, and Ms. Shade and Ms. Palma are the final word. Email both teachers with questions, and copy the Lower School office on arrival or dismissal changes. Their addresses are in the Flamingo welcome email.
+    Built by a Flamingo parent from the school's draft 2026–27 Lower School day calendar (6/17/2026), the Flamingos schedule sheet, and teacher emails. It is not an official Ellis tool. MyEllis, Seesaw, and Ms. Shade and Ms. Palma are the final word. Email both teachers with questions, and copy the Lower School office on arrival or dismissal changes. Their addresses are in the Flamingo welcome email. The check and X buttons send only the date and what the app showed, so mistakes can be fixed. No names, no accounts, no tracking of individual families.
   </footer>
 </div>
 
@@ -246,11 +290,28 @@ footer a{color:var(--green)}
     "2027-04-26":"The draft calendar prints Day 7 here. The pattern suggests Day 5, so check with the teachers."
   };
 
-  // LAB days: not counted in the rotation, but teachers may run them as a specific day.
-  // Add confirmed ones here as the Friday Seesaw newsletters announce them.
-  const LAB_AS = {
-    "2026-09-16": {n:1, why:"Make-up for the half-day first day of school (Sep 1), per the Sep 14–18 Flamingo newsletter."}
+  // ===================================================================
+  //  FEEDBACK — paste your Google Form values here to turn on the
+  //  "Is this right?" buttons and usage counting. See the README.
+  //  Leave formUrl empty and the buttons stay hidden.
+  // ===================================================================
+  const FEEDBACK = {
+    formUrl: "",      // .../formResponse
+    dateField: "",    // entry.1111111111  (the date shown)
+    dayField:  "",    // entry.2222222222  (what the app said)
+    voteField: "",    // entry.3333333333  (right / wrong / opened)
+    noteField: ""     // entry.4444444444  (optional note, can stay empty)
   };
+
+  // ===================================================================
+  //  UPDATES — the only part you need to edit.
+  //  Use the Update page inside the app to generate these lines,
+  //  then paste them between the braces below and commit.
+  // ===================================================================
+  const UPDATES = {
+    "2026-09-16": {as:1, why:"Make-up for the half-day first day of school (Sep 1), per the Sep 14–18 Flamingo newsletter."}
+  };
+  // ===================================================================
 
   // ---------- Schedule ----------
   const ROT = { // blocks A 8:30, B 9:10, C 10:05, D 12:20, E 1:15, F 1:55
@@ -280,7 +341,11 @@ footer a{color:var(--green)}
   const addDays = (d,n) => { const x=new Date(d); x.setDate(x.getDate()+n); return x; };
   const fmt = (d,o) => d.toLocaleDateString("en-US",o);
   const FIRST = fromKey("2026-08-31"), LAST = fromKey("2027-06-04");
-  const info = k => {
+  let LOCAL = {};
+  try { LOCAL = JSON.parse(localStorage.getItem("ff-local") || "{}"); } catch(e){ LOCAL = {}; }
+  const upd = k => LOCAL[k] || UPDATES[k] || null;
+
+  const baseInfo = k => {
     const c = CAL[k]; const d = fromKey(k); const wd = d.getDay();
     if (c === undefined) {
       if (wd===0||wd===6) return {type:"weekend"};
@@ -288,10 +353,24 @@ footer a{color:var(--green)}
       if (d > LAST) return {type:"out", text:"Summer break"};
       return {type:"unknown"};
     }
-    if (c === "L") return {type:"lab", as: LAB_AS[k] || null};
+    if (c === "L") return {type:"lab", as:null};
     if (c.startsWith("X|")) return {type:"closed", text:c.slice(2)};
     if (c.startsWith("S|")) return {type:"special", text:c.slice(2)};
     return {type:"day", n:Number(c)};
+  };
+  const info = k => {
+    let t = baseInfo(k); const o = upd(k);
+    if (o){
+      t = Object.assign({}, t);
+      if (o.closed) t = {type:"closed", text:o.closed};
+      else if (o.special) t = {type:"special", text:o.special};
+      else if (o.day) t = {type:"day", n:o.day};
+      else if (o.as) t = {type:"lab", as:{n:o.as, why:o.why||""}};
+      if (o.why && !(o.as)) t.why = o.why;
+      t.local = !!LOCAL[k];
+    }
+    t.note = (o && o.note) || NOTES[k] || null;
+    return t;
   };
   const isSchoolDay = k => { const t = info(k).type; return t==="day"||t==="lab"||t==="special"; };
   function nextSchool(d, dir){ let x=addDays(d,dir); for(let i=0;i<400;i++){ const k=key(x); if(x<FIRST||x>LAST) return null; if(isSchoolDay(k)) return x; x=addDays(x,dir);} return null; }
@@ -317,7 +396,7 @@ footer a{color:var(--green)}
       return `<div class="hero"><div class="disc"><span class="d">Day</span><span class="n">${t.n}</span></div>
         <h2>${pe?"PE day":"Regular day"}</h2>
         <div><p>Specials today</p><div class="chips">${specials(t.n).map(s=>`<span class="chip">${esc(s)}</span>`).join("")}</div></div>
-        <div class="full">${NOTES[k]?`<p>${esc(NOTES[k])}</p>`:""}
+        <div class="full">${t.note?`<p>${esc(t.note)}</p>`:""}${t.local?`<p class="preview">Preview on this phone only. Paste the line into GitHub to share it.</p>`:""}
         <div class="uniform ${pe?"pe":""}">${shirt}${pe?"Wear the PE uniform":"Regular uniform"}</div></div></div>`;
     }
     if (t.type==="lab" && t.as){
@@ -336,7 +415,7 @@ footer a{color:var(--green)}
     if (t.type==="closed"){
       return `<div class="hero closed"><div class="disc word"><span class="n">No<br>school</span></div>
         <h2>${esc(t.text)}</h2><p>No school for kindergarten students.</p>
-        <div class="full"><p>${esc(nextLine)}</p></div></div>`;
+        <div class="full">${t.note?`<p>${esc(t.note)}</p>`:""}${t.local?`<p class="preview">Preview on this phone only.</p>`:""}<p>${esc(nextLine)}</p></div></div>`;
     }
     if (t.type==="special"){
       return `<div class="hero special"><div class="disc word"><span class="n">Special</span></div>
@@ -364,13 +443,22 @@ footer a{color:var(--green)}
   }
 
   function upnextHTML(k){
+    // Weekdays only, but no-school days are shown too, so a gap never looks like a bug.
     let x = fromKey(k), out = [];
-    for (let i=0; i<5; i++){ x = nextSchool(x,1); if(!x) break; out.push(x); }
+    for (let guard=0; guard<40 && out.length<5; guard++){
+      x = addDays(x,1);
+      if (x > LAST) break;
+      const wd = x.getDay(); if (wd===0 || wd===6) continue;
+      if (x < FIRST) continue;
+      out.push(new Date(x));
+    }
     return out.map(d=>{ const kk=key(d), t=info(kk);
-      const v = t.type==="day" ? t.n : t.type==="lab" ? "LAB" : "★";
+      const v = t.type==="day" ? t.n : t.type==="lab" ? "LAB" : t.type==="special" ? "★" : "Off";
       const rn = t.type==="day" ? t.n : (t.type==="lab" && t.as ? t.as.n : 0);
-      const pe = rn && isPE(rn) ? "PE" : "";
-      return `<button data-k="${kk}" aria-label="${fmt(d,{weekday:"long",month:"long",day:"numeric"})}"><span class="wd">${fmt(d,{weekday:"short"})} ${d.getDate()}</span><span class="v">${v}</span><span class="pe">${pe}</span></button>`;
+      const note = rn && isPE(rn) ? "PE" : (t.type==="closed" ? "no school" : "");
+      const cls = t.type==="closed" ? " class=\"off\"" : "";
+      const why = t.type==="closed" ? ", "+t.text : "";
+      return `<button${cls} data-k="${kk}" aria-label="${fmt(d,{weekday:"long",month:"long",day:"numeric"})}${esc(why)}"><span class="wd">${fmt(d,{weekday:"short"})} ${d.getDate()}</span><span class="v">${v}</span><span class="pe">${note}</span></button>`;
     }).join("") || `<p>No more school days this year.</p>`;
   }
 
@@ -383,6 +471,60 @@ footer a{color:var(--green)}
     return `Flamingos: ${when}: ${t.text}.`;
   }
 
+  // ---------- Feedback and usage counting ----------
+  const fbOn = () => !!(FEEDBACK.formUrl && FEEDBACK.voteField);
+  let VOTED = {};
+  try { VOTED = JSON.parse(localStorage.getItem("ff-voted") || "{}"); } catch(e){ VOTED = {}; }
+
+  function sendFB(dateKey, shown, vote, note){
+    if (!fbOn()) return;
+    const body = new URLSearchParams();
+    if (FEEDBACK.dateField) body.append(FEEDBACK.dateField, dateKey);
+    if (FEEDBACK.dayField)  body.append(FEEDBACK.dayField, shown);
+    body.append(FEEDBACK.voteField, vote);
+    if (FEEDBACK.noteField && note) body.append(FEEDBACK.noteField, note);
+    // no-cors: the form accepts the post, the browser just can't read the reply
+    fetch(FEEDBACK.formUrl, {method:"POST", mode:"no-cors", body}).catch(()=>{});
+  }
+
+  function shownLabel(k){
+    const t = info(k);
+    if (t.type==="day") return "Day "+t.n;
+    if (t.type==="lab") return t.as ? "LAB as Day "+t.as.n : "LAB";
+    if (t.type==="closed") return "No school";
+    if (t.type==="special") return "Special";
+    return t.type;
+  }
+
+  function feedbackHTML(k){
+    const t = info(k);
+    if (!fbOn()) return "";
+    if (!(t.type==="day" || t.type==="lab" || t.type==="closed" || t.type==="special")) return "";
+    if (VOTED[k]) return `<div class="fb done">Thanks for checking. ${VOTED[k]==="wrong"?"Flagged for review.":""}</div>`;
+    return `<div class="fb"><span>Is this right?</span>
+      <button class="fbBtn yes" data-vote="right" data-k="${k}" aria-label="Yes, this is right">✓</button>
+      <button class="fbBtn no" data-vote="wrong" data-k="${k}" aria-label="No, this is wrong">✗</button></div>`;
+  }
+
+  document.addEventListener("click", e => {
+    const b = e.target.closest(".fbBtn"); if (!b) return;
+    const k = b.dataset.k, vote = b.dataset.vote;
+    let note = "";
+    if (vote === "wrong") note = prompt("Thanks. What should it say? (optional)") || "";
+    sendFB(k, shownLabel(k), vote, note);
+    VOTED[k] = vote;
+    try { localStorage.setItem("ff-voted", JSON.stringify(VOTED)); } catch(err){}
+    $("feedback").innerHTML = feedbackHTML(k);
+  });
+
+  // One quiet ping per device per day, so you can see how many families use it.
+  (function ping(){
+    if (!fbOn()) return;
+    const tk = key(today);
+    try { if (localStorage.getItem("ff-ping") === tk) return; localStorage.setItem("ff-ping", tk); } catch(e){}
+    sendFB(tk, shownLabel(tk), "opened", "");
+  })();
+
   function renderToday(){
     const k = key(cur);
     const isT = key(today)===k;
@@ -390,6 +532,7 @@ footer a{color:var(--green)}
     $("picker").value = k;
     $("hero").innerHTML = heroHTML(k);
     $("dayDetail").innerHTML = detailHTML(k);
+    $("feedback").innerHTML = feedbackHTML(k);
     $("upnext").innerHTML = upnextHTML(k);
     $("copyText").textContent = copyLine(k);
     $("prev").disabled = !nextSchool(cur,-1);
@@ -406,13 +549,13 @@ footer a{color:var(--green)}
     for (let d=1; d<=new Date(y,m+1,0).getDate(); d++){
       const dt = new Date(y,m,d), wd = dt.getDay(); if (wd===0||wd===6) continue;
       const k = key(dt), t = info(k);
-      let cls="", v="";
+      let cls="", v="", title="";
       if (t.type==="day"){ v = t.n + (isPE(t.n)?" <small>PE</small>":""); }
       else if (t.type==="lab"){ cls="is-lab"; v = t.as ? `LAB<small> =${t.as.n}${isPE(t.as.n)?" PE":""}</small>` : "LAB"; }
-      else if (t.type==="closed"){ cls="is-closed"; v="Off"; }
+      else if (t.type==="closed"){ cls="is-closed"; v="Off"; title=t.text; }
       else if (t.type==="special"){ cls="is-special"; v="★"; }
       if (k===key(today)) cls+=" is-today";
-      html += `<button class="${cls}" data-k="${k}" aria-label="${fmt(dt,{weekday:"long",month:"long",day:"numeric"})}"><span class="dn">${d}</span><span class="dv">${v}</span></button>`;
+      html += `<button class="${cls}" title="${esc(title)}" data-k="${k}" aria-label="${fmt(dt,{weekday:"long",month:"long",day:"numeric"})}${title?", "+esc(title):""}"><span class="dn">${d}</span><span class="dv">${v}</span></button>`;
     }
     $("cal").innerHTML = html;
     $("mPrev").disabled = (y===2026 && m<=7);
@@ -435,7 +578,8 @@ footer a{color:var(--green)}
   // ---------- Events ----------
   function show(view){
     document.querySelectorAll(".tabs button").forEach(b=>b.setAttribute("aria-selected", b.dataset.view===view));
-    ["today","month","grid","how"].forEach(v=>$("view-"+v).hidden = v!==view);
+    ["today","month","grid","how","admin"].forEach(v=>$("view-"+v).hidden = v!==view);
+    document.querySelectorAll(".tabs button").forEach(b=>{ if(view==="admin") b.setAttribute("aria-selected","false"); });
     if (view==="month") renderMonth();
     try { sessionStorage.setItem("ff-view", view); } catch(e){}
   }
@@ -454,6 +598,49 @@ footer a{color:var(--green)}
     catch(e){ const r=document.createRange(); r.selectNodeContents($("copyText")); const s=getSelection(); s.removeAllRanges(); s.addRange(r); $("copyBtn").textContent="Text selected, tap Copy"; }
     setTimeout(()=>{$("copyBtn").textContent="Copy for the group chat";},2500);
   });
+
+  // ---------- Update page ----------
+  $("aNum").innerHTML = [1,2,3,4,5,6,7,8].map(n=>`<option value="${n}">Day ${n}${isPE(n)?" (PE uniform)":""}</option>`).join("");
+  $("openAdmin").addEventListener("click",()=>{ $("aDate").value = $("aDate").value || key(cur); show("admin"); buildLine(); window.scrollTo({top:0}); });
+  function kindNeedsNum(){ const k=$("aKind").value; return k==="as"||k==="day"; }
+  function syncForm(){ $("aNumWrap").hidden = !kindNeedsNum(); buildLine(); }
+  ["aKind","aDate","aNum","aWhy"].forEach(id=>$(id).addEventListener("input",syncForm));
+  function entry(){
+    const d=$("aDate").value; if(!d) return null;
+    const kind=$("aKind").value, n=Number($("aNum").value), why=$("aWhy").value.trim();
+    const o={};
+    if(kind==="as") o.as=n; else if(kind==="day") o.day=n;
+    else if(kind==="closed") o.closed=why||"No school";
+    else if(kind==="special") o.special=why||"Special schedule";
+    if(kind==="note") o.note=why;
+    else if(why && kind!=="closed" && kind!=="special") o.why=why;
+    return {d,o};
+  }
+  function buildLine(){
+    const e=entry();
+    $("aOut").textContent = e ? `"${e.d}": ${JSON.stringify(e.o).replace(/"(\w+)":/g,"$1:")},` : "Pick a date to get your line.";
+  }
+  $("aPreview").addEventListener("click",()=>{
+    const e=entry(); if(!e) return;
+    LOCAL[e.d]=e.o;
+    try { localStorage.setItem("ff-local", JSON.stringify(LOCAL)); } catch(err){}
+    cur=fromKey(e.d); renderToday(); show("today"); window.scrollTo({top:0});
+  });
+  $("aCopy").addEventListener("click",async()=>{
+    const txt=$("aOut").textContent;
+    try { await navigator.clipboard.writeText(txt); $("aCopy").textContent="Copied"; }
+    catch(err){ $("aCopy").textContent="Select the line above to copy"; }
+    setTimeout(()=>{$("aCopy").textContent="Copy line for GitHub";},2500);
+  });
+  $("aClear").addEventListener("click",()=>{
+    LOCAL={}; try{ localStorage.removeItem("ff-local"); }catch(err){}
+    renderToday(); listLocal();
+  });
+  function listLocal(){
+    const ks=Object.keys(LOCAL);
+    $("aLocalList").textContent = ks.length ? "Previewing on this phone: "+ks.join(", ")+". These are not live for other parents until you paste them into GitHub." : "No previews saved on this phone.";
+  }
+  syncForm(); listLocal();
 
   renderToday(); renderGrid();
   let startView = "today"; try { startView = sessionStorage.getItem("ff-view") || "today"; } catch(e){}
