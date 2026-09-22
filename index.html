@@ -20,7 +20,7 @@
   --flamingo:#E8456F; --flamingo-soft:#FFE1E9; --on-flamingo:#FFFFFF;
   --green:#00674E; --green-soft:#DDF1EA;
   --reading:#F4E77A; --math:#F3A08F; --hum:#9CCBE0; --flex:#C4B1DE; --plain:#F3F1F4;
-  --lab:#8CC56B; --closed:#E9534A; --special:#F6D743;
+  --lab:#8CC56B; --closed:#E9534A; --special:#F6D743; --red:#D7263D;
   --disp:"Fredoka","Trebuchet MS","Segoe UI",system-ui,sans-serif;
   --body:"Atkinson Hyperlegible","Segoe UI",system-ui,-apple-system,sans-serif;
 }
@@ -30,7 +30,7 @@
     --flamingo:#FF6F93; --flamingo-soft:#43263A; --on-flamingo:#1A1420;
     --green:#5ED1AE; --green-soft:#1D3A33;
     --reading:#6B6326; --math:#7A4238; --hum:#2F5566; --flex:#4D3F66; --plain:#302838;
-    --lab:#4F7A3A; --closed:#9B3A34; --special:#7A6A1E;
+    --lab:#4F7A3A; --closed:#9B3A34; --special:#7A6A1E; --red:#FF7A85;
   }
 }
 :root[data-theme="dark"]{
@@ -38,7 +38,7 @@
   --flamingo:#FF6F93; --flamingo-soft:#43263A; --on-flamingo:#1A1420;
   --green:#5ED1AE; --green-soft:#1D3A33;
   --reading:#6B6326; --math:#7A4238; --hum:#2F5566; --flex:#4D3F66; --plain:#302838;
-  --lab:#4F7A3A; --closed:#9B3A34; --special:#7A6A1E;
+  --lab:#4F7A3A; --closed:#9B3A34; --special:#7A6A1E; --red:#FF7A85;
 }
 *{box-sizing:border-box}
 html,body{margin:0}
@@ -134,6 +134,29 @@ td.pe-col,th.pe-col{box-shadow:inset 0 0 0 2px var(--green)}
 .fbBtn{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--bg);font-size:1.1rem;line-height:1}
 .fbBtn.yes{color:var(--green)} .fbBtn.no{color:var(--closed)}
 .fbBtn:hover{border-color:currentColor}
+.tabs button{font-size:.85rem}
+.lede{margin-top:0;color:var(--muted);font-size:.95rem}
+.tip{font-size:.88rem;color:var(--muted)}
+.wordcard{background:var(--surface);border:1px solid var(--line);border-radius:28px;padding:26px 18px 20px;text-align:center}
+.wc-word{font-family:var(--disp);font-weight:700;font-size:clamp(3.6rem,18vw,5.5rem);line-height:1;color:var(--red);letter-spacing:.02em}
+.wc-star{font-size:1.4rem;min-height:1.6rem;margin-top:4px}
+.tiles{display:flex;justify-content:center;gap:8px;margin:18px 0}
+.tiles span{width:48px;height:56px;border-radius:14px;border:2px solid var(--line);display:flex;align-items:center;justify-content:center;font-family:var(--disp);font-weight:600;font-size:1.7rem;transition:background .15s,transform .15s}
+.tiles span.on{background:var(--flamingo);color:var(--on-flamingo);border-color:var(--flamingo);transform:translateY(-4px)}
+.wc-actions{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.wc-actions button{border:0;border-radius:999px;padding:10px 16px;font-weight:700;background:var(--flamingo-soft);color:var(--ink)}
+.wc-actions button.know{background:var(--green);color:#fff}
+.wc-actions button.known{background:var(--special);color:#1F2A44}
+.wordnav{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:12px;color:var(--muted);font-size:.9rem}
+.wordlist{display:flex;flex-wrap:wrap;gap:8px}
+.wordlist button{border:1px solid var(--line);background:var(--surface);border-radius:14px;padding:8px 14px;font-family:var(--disp);font-weight:600;font-size:1.2rem;color:var(--red)}
+.wordlist button small{display:block;font-family:var(--body);font-weight:400;font-size:.7rem;color:var(--muted)}
+.wordlist button.cur{border-color:var(--flamingo);box-shadow:0 0 0 2px var(--flamingo)}
+.letters{display:flex;flex-wrap:wrap;gap:10px}
+.letters button{width:84px;height:84px;border-radius:20px;border:0;background:var(--flamingo-soft);font-family:var(--disp);font-weight:600;font-size:2.2rem;color:var(--ink)}
+.letters button small{display:block;font-family:var(--body);font-weight:400;font-size:.7rem;color:var(--muted)}
+.cheer{margin-top:10px;font-weight:700;color:var(--green)}
+@media (prefers-reduced-motion:no-preference){.pop{animation:pop .35s ease-out}}
 .form{display:grid;gap:12px}
 .form label{display:grid;gap:5px;font-weight:700;font-size:.9rem}
 .form input,.form select{padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:var(--surface);font-weight:400}
@@ -156,8 +179,9 @@ footer a{color:var(--green)}
   <nav class="tabs" role="tablist" aria-label="Views">
     <button role="tab" aria-selected="true" data-view="today">Day</button>
     <button role="tab" aria-selected="false" data-view="month">Month</button>
-    <button role="tab" aria-selected="false" data-view="grid">8-day grid</button>
-    <button role="tab" aria-selected="false" data-view="how">How it works</button>
+    <button role="tab" aria-selected="false" data-view="words">Words</button>
+    <button role="tab" aria-selected="false" data-view="grid">Grid</button>
+    <button role="tab" aria-selected="false" data-view="how">Help</button>
   </nav>
 
   <section id="view-today">
@@ -196,6 +220,23 @@ footer a{color:var(--green)}
       <span>PE = PE uniform</span>
     </div>
     <p style="font-size:.85rem;color:var(--muted)">Tap any date to see that day's schedule.</p>
+  </section>
+
+  <section id="view-words" hidden>
+    <h3 style="margin-top:0">Red Words</h3>
+    <p class="lede">Red Words are words kids learn by heart instead of sounding out. New ones come home each week in the Flamingo newsletter.</p>
+    <div class="wordcard" id="wordCard" aria-live="polite"></div>
+    <div class="wordnav">
+      <button class="nav pill" id="wPrev" aria-label="Previous word">‹</button>
+      <span id="wCount"></span>
+      <button class="nav pill" id="wNext" aria-label="Next word">›</button>
+    </div>
+    <p class="tip">Try it together: say the word, spell it out loud while tapping each letter, then say it again.</p>
+    <h3>All our Red Words</h3>
+    <div class="wordlist" id="wordList"></div>
+    <h3>Letters we've learned</h3>
+    <div class="letters" id="letterList"></div>
+    <p class="tip">Tap a letter to hear its name.</p>
   </section>
 
   <section id="view-grid" hidden>
@@ -302,6 +343,18 @@ footer a{color:var(--green)}
     voteField: "",    // entry.3333333333  (right / wrong / opened)
     noteField: ""     // entry.4444444444  (optional note, can stay empty)
   };
+
+  // ===================================================================
+  //  RED WORDS and LETTERS — add each week's from the Flamingo newsletter.
+  // ===================================================================
+  const RED_WORDS = [
+    {w:"the", week:"Sep 14"},
+    {w:"was", week:"Sep 21"}
+  ];
+  const LETTERS = [
+    {l:"Mm", week:"Sep 14"},
+    {l:"Aa", week:"Sep 21"}
+  ];
 
   // ===================================================================
   //  UPDATES — the only part you need to edit.
@@ -578,7 +631,8 @@ footer a{color:var(--green)}
   // ---------- Events ----------
   function show(view){
     document.querySelectorAll(".tabs button").forEach(b=>b.setAttribute("aria-selected", b.dataset.view===view));
-    ["today","month","grid","how","admin"].forEach(v=>$("view-"+v).hidden = v!==view);
+    ["today","month","words","grid","how","admin"].forEach(v=>$("view-"+v).hidden = v!==view);
+    if (view==="words") renderWords();
     document.querySelectorAll(".tabs button").forEach(b=>{ if(view==="admin") b.setAttribute("aria-selected","false"); });
     if (view==="month") renderMonth();
     try { sessionStorage.setItem("ff-view", view); } catch(e){}
@@ -598,6 +652,62 @@ footer a{color:var(--green)}
     catch(e){ const r=document.createRange(); r.selectNodeContents($("copyText")); const s=getSelection(); s.removeAllRanges(); s.addRange(r); $("copyBtn").textContent="Text selected, tap Copy"; }
     setTimeout(()=>{$("copyBtn").textContent="Copy for the group chat";},2500);
   });
+
+  // ---------- Red Words ----------
+  let wi = RED_WORDS.length - 1;               // start on the newest word
+  let KNOWN = {};
+  try { KNOWN = JSON.parse(localStorage.getItem("ff-known") || "{}"); } catch(e){ KNOWN = {}; }
+  const canSpeak = "speechSynthesis" in window;
+
+  function speak(parts, onEach, onDone){
+    if (!canSpeak) return;
+    speechSynthesis.cancel();
+    parts.forEach((txt,i)=>{
+      const u = new SpeechSynthesisUtterance(txt);
+      u.lang = "en-US"; u.rate = 0.75;
+      u.onstart = () => onEach && onEach(i);
+      if (i === parts.length-1) u.onend = () => onDone && onDone();
+      speechSynthesis.speak(u);
+    });
+  }
+  function lightTile(i){
+    document.querySelectorAll("#wordCard .tiles span").forEach((s,j)=>s.classList.toggle("on", i==="all" || j===i));
+  }
+
+  function renderWords(){
+    if (!RED_WORDS.length){ $("wordCard").innerHTML = "<p>No Red Words yet.</p>"; return; }
+    const w = RED_WORDS[wi].w, known = !!KNOWN[w];
+    const allKnown = RED_WORDS.every(x=>KNOWN[x.w]);
+    $("wordCard").innerHTML = `
+      <div class="wc-word pop" aria-label="${esc(w)}">${esc(w)}</div>
+      <div class="wc-star">${known?"⭐":""}</div>
+      <div class="tiles">${[...w].map(ch=>`<span>${esc(ch)}</span>`).join("")}</div>
+      <div class="wc-actions">
+        ${canSpeak?`<button data-act="say">🔊 Say it</button><button data-act="spell">Spell it</button>`:""}
+        <button data-act="know" class="${known?"known":"know"}">${known?"Got it! ⭐":"I know it!"}</button>
+      </div>
+      ${allKnown?`<p class="cheer">Every Red Word so far. Hooray! 🦩</p>`:""}`;
+    $("wCount").textContent = `${wi+1} of ${RED_WORDS.length}`;
+    $("wPrev").disabled = wi===0; $("wNext").disabled = wi===RED_WORDS.length-1;
+    $("wordList").innerHTML = RED_WORDS.map((x,i)=>`<button class="${i===wi?"cur":""}" data-i="${i}">${esc(x.w)}${KNOWN[x.w]?" ⭐":""}<small>${esc(x.week)}</small></button>`).join("");
+    $("letterList").innerHTML = LETTERS.map(x=>`<button data-l="${esc(x.l)}" aria-label="Letter ${esc(x.l[0])}">${esc(x.l)}<small>${esc(x.week)}</small></button>`).join("");
+  }
+
+  $("wordCard").addEventListener("click", e=>{
+    const b = e.target.closest("button[data-act]"); if(!b) return;
+    const w = RED_WORDS[wi].w;
+    if (b.dataset.act==="say") speak([w], ()=>lightTile("all"), ()=>lightTile(-1));
+    if (b.dataset.act==="spell") speak([...w.toUpperCase()].map(c=>c).concat([w]), i=>lightTile(i < w.length ? i : "all"), ()=>lightTile(-1));
+    if (b.dataset.act==="know"){
+      if (KNOWN[w]) delete KNOWN[w]; else KNOWN[w] = true;
+      try { localStorage.setItem("ff-known", JSON.stringify(KNOWN)); } catch(err){}
+      renderWords();
+    }
+  });
+  $("wPrev").addEventListener("click",()=>{ if(wi>0){wi--; renderWords();} });
+  $("wNext").addEventListener("click",()=>{ if(wi<RED_WORDS.length-1){wi++; renderWords();} });
+  $("wordList").addEventListener("click",e=>{ const b=e.target.closest("button[data-i]"); if(b){ wi=Number(b.dataset.i); renderWords(); }});
+  $("letterList").addEventListener("click",e=>{ const b=e.target.closest("button[data-l]"); if(b) speak([b.dataset.l[0]]); });
 
   // ---------- Update page ----------
   $("aNum").innerHTML = [1,2,3,4,5,6,7,8].map(n=>`<option value="${n}">Day ${n}${isPE(n)?" (PE uniform)":""}</option>`).join("");
