@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flamingos Day Finder</title>
+<meta name="description" content="Which rotation day is it for Ellis kindergarten Flamingos, and is it a PE uniform day?">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#E8456F">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Day Finder">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FFF9FA; --surface:#FFFFFF; --ink:#1F2A44; --muted:#5B6478; --line:#F1D9DF;
+  --flamingo:#E8456F; --flamingo-soft:#FFE1E9; --on-flamingo:#FFFFFF;
+  --green:#00674E; --green-soft:#DDF1EA;
+  --reading:#F4E77A; --math:#F3A08F; --hum:#9CCBE0; --flex:#C4B1DE; --plain:#F3F1F4;
+  --lab:#8CC56B; --closed:#E9534A; --special:#F6D743; --red:#D7263D;
+  --disp:"Fredoka","Trebuchet MS","Segoe UI",system-ui,sans-serif;
+  --body:"Atkinson Hyperlegible","Segoe UI",system-ui,-apple-system,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#1A1420; --surface:#251D2C; --ink:#F6EEF2; --muted:#B9AFC0; --line:#3E3246;
+    --flamingo:#FF6F93; --flamingo-soft:#43263A; --on-flamingo:#1A1420;
+    --green:#5ED1AE; --green-soft:#1D3A33;
+    --reading:#6B6326; --math:#7A4238; --hum:#2F5566; --flex:#4D3F66; --plain:#302838;
+    --lab:#4F7A3A; --closed:#9B3A34; --special:#7A6A1E; --red:#FF7A85;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#1A1420; --surface:#251D2C; --ink:#F6EEF2; --muted:#B9AFC0; --line:#3E3246;
+  --flamingo:#FF6F93; --flamingo-soft:#43263A; --on-flamingo:#1A1420;
+  --green:#5ED1AE; --green-soft:#1D3A33;
+  --reading:#6B6326; --math:#7A4238; --hum:#2F5566; --flex:#4D3F66; --plain:#302838;
+  --lab:#4F7A3A; --closed:#9B3A34; --special:#7A6A1E; --red:#FF7A85;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:16px/1.5 var(--body);-webkit-text-size-adjust:100%}
+.wrap{max-width:560px;margin:0 auto;padding:16px 16px 48px}
+header.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+.brand{font-family:var(--disp);font-weight:600;font-size:1.15rem;color:var(--flamingo);margin:0}
+.brand small{display:block;font-family:var(--body);font-weight:400;font-size:.8rem;color:var(--muted)}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--green);outline-offset:2px}
+.tabs{display:flex;gap:6px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:4px;margin-bottom:16px}
+.tabs button{flex:1;border:0;background:none;padding:8px 4px;border-radius:999px;font-weight:700;font-size:.9rem;color:var(--muted)}
+.tabs button[aria-selected="true"]{background:var(--flamingo);color:var(--on-flamingo)}
+.datebar{display:flex;align-items:center;gap:8px;margin-bottom:14px}
+.datebar .nav{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--surface);font-size:1.3rem;line-height:1}
+.datebar .label{flex:1;text-align:center;font-weight:700}
+.datebar .label span{display:block;font-weight:400;font-size:.85rem;color:var(--muted)}
+.row-actions{display:flex;gap:8px;margin:-4px 0 16px;flex-wrap:wrap}
+.pill{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 14px;font-size:.9rem}
+.pill input{border:0;background:none;padding:0}
+
+.hero{border-radius:28px;padding:22px 22px 20px;background:var(--flamingo-soft);display:grid;grid-template-columns:auto 1fr;gap:4px 18px;align-items:center}
+.disc{width:112px;height:112px;border-radius:50%;background:var(--flamingo);color:var(--on-flamingo);display:flex;flex-direction:column;align-items:center;justify-content:center;grid-row:span 2;font-family:var(--disp)}
+.disc .d{font-size:.95rem;font-weight:500;line-height:1}
+.disc .n{font-size:3.6rem;font-weight:700;line-height:.95}
+.disc.word .n{font-size:1.9rem;line-height:1.05;text-align:center}
+.hero.lab{background:color-mix(in srgb,var(--lab) 30%,var(--surface))}
+.hero.lab .disc{background:var(--lab);color:var(--ink)}
+.hero.closed{background:color-mix(in srgb,var(--closed) 16%,var(--surface))}
+.hero.closed .disc{background:var(--closed);color:#fff}
+.hero.special{background:color-mix(in srgb,var(--special) 30%,var(--surface))}
+.hero.special .disc{background:var(--special);color:#1F2A44}
+.hero h2{font-family:var(--disp);font-weight:600;font-size:1.35rem;line-height:1.2;margin:0}
+.hero p{margin:0;color:var(--muted);font-size:.95rem}
+.hero .full{grid-column:1/-1;margin-top:12px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.chip{padding:4px 12px;border-radius:999px;background:var(--surface);font-weight:700;font-size:.9rem}
+.uniform{display:flex;align-items:center;gap:10px;margin-top:14px;padding:10px 14px;border-radius:16px;background:var(--surface);font-weight:700}
+.uniform.pe{background:var(--green);color:#fff}
+.uniform svg{flex:none}
+
+h3{font-family:var(--disp);font-weight:600;font-size:1.1rem;margin:26px 0 10px}
+.timeline{list-style:none;margin:0;padding:0;border-left:3px solid var(--line);margin-left:6px}
+.timeline li{display:grid;grid-template-columns:96px 1fr;gap:10px;padding:5px 0 5px 12px;align-items:center}
+.timeline .t{font-size:.82rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.blk{padding:6px 12px;border-radius:10px;background:var(--plain);font-weight:700}
+.blk.shared{background:none;padding-left:0;font-weight:400;color:var(--muted)}
+.Reading{background:var(--reading)} .Math{background:var(--math)} .Humanities{background:var(--hum)} .FLEX{background:var(--flex)}
+.special-tag{border:2px solid var(--flamingo)}
+
+.upnext{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.upnext button{border:1px solid var(--line);background:var(--surface);border-radius:16px;padding:10px 2px;text-align:center}
+.upnext .wd{display:block;font-size:.75rem;color:var(--muted)}
+.upnext .v{display:block;font-family:var(--disp);font-weight:600;font-size:1.25rem}
+.upnext .pe{display:block;font-size:.7rem;color:var(--green);font-weight:700;min-height:1em}
+.upnext button.off{background:color-mix(in srgb,var(--closed) 14%,var(--surface));border-color:transparent}
+.upnext button.off .v{font-size:1rem;color:var(--muted)}
+.upnext button.off .pe{color:var(--muted);font-weight:400}
+
+.copybox{margin-top:18px;background:var(--surface);border:1px dashed var(--line);border-radius:16px;padding:12px 14px}
+.copybox p{margin:0 0 8px;font-size:.95rem}
+.btn{border:0;background:var(--green);color:#fff;border-radius:999px;padding:8px 16px;font-weight:700}
+
+.month-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.month-head h2{font-family:var(--disp);font-weight:600;margin:0;font-size:1.3rem}
+.cal{display:grid;grid-template-columns:repeat(5,1fr);gap:5px}
+.cal .wh{text-align:center;font-size:.8rem;color:var(--muted);font-weight:700}
+.cal button,.cal .blank{min-height:62px;border-radius:12px;border:1px solid var(--line);background:var(--surface);padding:5px;text-align:left;display:flex;flex-direction:column;justify-content:space-between}
+.cal .blank{border-style:dashed;opacity:.35}
+.cal .dn{font-size:.8rem;color:var(--muted)}
+.cal .dv{font-family:var(--disp);font-weight:600;font-size:1.05rem;align-self:flex-end}
+.cal .is-lab{background:var(--lab)} .cal .is-closed{background:var(--closed);color:#fff} .cal .is-closed .dn{color:#fff}
+.cal .is-special{background:var(--special);color:#1F2A44} .cal .is-special .dn{color:#1F2A44}
+.cal .is-today{outline:3px solid var(--flamingo);outline-offset:-1px}
+.legend{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px;font-size:.85rem;color:var(--muted)}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:4px;margin-right:5px;vertical-align:-1px}
+
+.gridwrap{overflow-x:auto;border:1px solid var(--line);border-radius:16px;background:var(--surface)}
+table{border-collapse:collapse;font-size:.85rem;min-width:760px}
+th,td{padding:7px 6px;text-align:center;border-bottom:1px solid var(--line)}
+th{font-family:var(--disp);font-weight:600}
+td.time,th.time{position:sticky;left:0;background:var(--surface);text-align:left;white-space:nowrap;color:var(--muted);font-variant-numeric:tabular-nums}
+td.all{color:var(--muted)}
+td.pe-col,th.pe-col{box-shadow:inset 0 0 0 2px var(--green)}
+
+.prose p,.prose li{max-width:65ch}
+.prose ul{padding-left:1.2em}
+.flag{background:var(--surface);border-left:4px solid var(--flamingo);border-radius:0 12px 12px 0;padding:10px 14px;margin:10px 0}
+.flag strong{display:block}
+.fb{display:flex;align-items:center;gap:10px;margin-top:14px;padding:10px 14px;border-radius:16px;background:var(--surface);border:1px solid var(--line);font-size:.92rem}
+.fb.done{color:var(--muted)}
+.fbBtn{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--bg);font-size:1.1rem;line-height:1}
+.fbBtn.yes{color:var(--green)} .fbBtn.no{color:var(--closed)}
+.fbBtn:hover{border-color:currentColor}
+.tabs button{font-size:.85rem}
+.lede{margin-top:0;color:var(--muted);font-size:.95rem}
+.tip{font-size:.88rem;color:var(--muted)}
+.wordcard{background:var(--surface);border:1px solid var(--line);border-radius:28px;padding:26px 18px 20px;text-align:center}
+.wc-word{font-family:var(--disp);font-weight:700;font-size:clamp(3.6rem,18vw,5.5rem);line-height:1;color:var(--red);letter-spacing:.02em}
+.wc-star{font-size:1.4rem;min-height:1.6rem;margin-top:4px}
+.tiles{display:flex;justify-content:center;gap:8px;margin:18px 0}
+.tiles span{width:48px;height:56px;border-radius:14px;border:2px solid var(--line);display:flex;align-items:center;justify-content:center;font-family:var(--disp);font-weight:600;font-size:1.7rem;transition:background .15s,transform .15s}
+.tiles span.on{background:var(--flamingo);color:var(--on-flamingo);border-color:var(--flamingo);transform:translateY(-4px)}
+.wc-actions{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.wc-actions button{border:0;border-radius:999px;padding:10px 16px;font-weight:700;background:var(--flamingo-soft);color:var(--ink)}
+.wc-actions button.know{background:var(--green);color:#fff}
+.wc-actions button.known{background:var(--special);color:#1F2A44}
+.wordnav{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:12px;color:var(--muted);font-size:.9rem}
+.wordlist{display:flex;flex-wrap:wrap;gap:8px}
+.wordlist button{border:1px solid var(--line);background:var(--surface);border-radius:14px;padding:8px 14px;font-family:var(--disp);font-weight:600;font-size:1.2rem;color:var(--red)}
+.wordlist button small{display:block;font-family:var(--body);font-weight:400;font-size:.7rem;color:var(--muted)}
+.wordlist button.cur{border-color:var(--flamingo);box-shadow:0 0 0 2px var(--flamingo)}
+.letters{display:flex;flex-wrap:wrap;gap:10px}
+.letters button{width:84px;height:84px;border-radius:20px;border:0;background:var(--flamingo-soft);font-family:var(--disp);font-weight:600;font-size:2.2rem;color:var(--ink)}
+.letters button small{display:block;font-family:var(--body);font-weight:400;font-size:.7rem;color:var(--muted)}
+.cheer{margin-top:10px;font-weight:700;color:var(--green)}
+@media (prefers-reduced-motion:no-preference){.pop{animation:pop .35s ease-out}}
+.form{display:grid;gap:12px}
+.form label{display:grid;gap:5px;font-weight:700;font-size:.9rem}
+.form input,.form select{padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:var(--surface);font-weight:400}
+.form-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.code{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px;overflow-x:auto;font-size:.82rem;white-space:pre-wrap;word-break:break-word;min-height:1em}
+.preview{background:var(--green-soft);border-radius:10px;padding:6px 10px;font-size:.85rem;color:var(--ink)}
+footer{margin-top:32px;font-size:.8rem;color:var(--muted)}
+footer a{color:var(--green)}
+[hidden]{display:none!important}
+@media (prefers-reduced-motion:no-preference){.hero{animation:pop .35s ease-out}@keyframes pop{from{transform:scale(.97);opacity:.4}to{transform:none;opacity:1}}}
+@media (max-width:380px){.disc{width:92px;height:92px}.disc .n{font-size:3rem}.timeline li{grid-template-columns:82px 1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <p class="brand">Flamingos Day Finder<small>Ellis Lower School kindergarten, homeroom KA, 2026–27</small></p>
+  </header>
+
+  <nav class="tabs" role="tablist" aria-label="Views">
+    <button role="tab" aria-selected="true" data-view="today">Day</button>
+    <button role="tab" aria-selected="false" data-view="month">Month</button>
+    <button role="tab" aria-selected="false" data-view="words">Words</button>
+    <button role="tab" aria-selected="false" data-view="grid">Grid</button>
+    <button role="tab" aria-selected="false" data-view="how">Help</button>
+  </nav>
+
+  <section id="view-today">
+    <div class="datebar">
+      <button class="nav" id="prev" aria-label="Previous school day">‹</button>
+      <div class="label" id="dateLabel"></div>
+      <button class="nav" id="next" aria-label="Next school day">›</button>
+    </div>
+    <div class="row-actions">
+      <button class="pill" id="goToday">Today</button>
+      <label class="pill">Pick a date <input type="date" id="picker" min="2026-08-31" max="2027-06-04"></label>
+    </div>
+    <div id="hero"></div>
+    <div id="feedback"></div>
+    <div id="dayDetail"></div>
+    <h3>Coming up</h3>
+    <div class="upnext" id="upnext"></div>
+    <div class="copybox">
+      <p id="copyText"></p>
+      <button class="btn" id="copyBtn">Copy for the group chat</button>
+    </div>
+  </section>
+
+  <section id="view-month" hidden>
+    <div class="month-head">
+      <button class="nav pill" id="mPrev" aria-label="Previous month">‹</button>
+      <h2 id="mTitle"></h2>
+      <button class="nav pill" id="mNext" aria-label="Next month">›</button>
+    </div>
+    <div class="cal" id="cal"></div>
+    <div class="legend">
+      <span><i style="background:var(--surface);border:1px solid var(--line)"></i>Day number</span>
+      <span><i style="background:var(--lab)"></i>LAB day</span>
+      <span><i style="background:var(--closed)"></i>No school</span>
+      <span><i style="background:var(--special)"></i>Special schedule</span>
+      <span>PE = PE uniform</span>
+    </div>
+    <p style="font-size:.85rem;color:var(--muted)">Tap any date to see that day's schedule.</p>
+  </section>
+
+  <section id="view-words" hidden>
+    <h3 style="margin-top:0">Red Words</h3>
+    <p class="lede">Red Words are words kids learn by heart instead of sounding out. New ones come home each week in the Flamingo newsletter.</p>
+    <div class="wordcard" id="wordCard" aria-live="polite"></div>
+    <div class="wordnav">
+      <button class="nav pill" id="wPrev" aria-label="Previous word">‹</button>
+      <span id="wCount"></span>
+      <button class="nav pill" id="wNext" aria-label="Next word">›</button>
+    </div>
+    <p class="tip">Try it together: say the word, spell it out loud while tapping each letter, then say it again.</p>
+    <h3>All our Red Words</h3>
+    <div class="wordlist" id="wordList"></div>
+    <h3>Letters we've learned</h3>
+    <div class="letters" id="letterList"></div>
+    <p class="tip">Tap a letter to hear its name.</p>
+  </section>
+
+  <section id="view-grid" hidden>
+    <p style="margin-top:0">The Flamingos schedule for each rotation day. Outlined columns are PE uniform days. Swipe sideways to see all eight.</p>
+    <div class="gridwrap"><table id="grid"></table></div>
+  </section>
+
+  <section id="view-how" class="prose" hidden>
+    <h3 style="margin-top:0">The short version</h3>
+    <p>Kindergarten runs on an 8-day rotation instead of a Monday-to-Friday week. Each regular school day gets the next number: Day 1, Day 2, and so on up to Day 8, then back to Day 1.</p>
+    <ul>
+      <li><strong>Weekends and no-school days don't count.</strong> The rotation picks up where it left off on the next school day.</li>
+      <li><strong>LAB days aren't counted in the 1–8 rotation,</strong> but the teachers can run one as a specific day. Example: Tue Sep 15 was Day 2. Wed Sep 16 was a LAB day run as Day 1, to make up for the half-day first day. Thu Sep 17 is Day 3.</li>
+      <li><strong>Watch the Friday Seesaw newsletter.</strong> Its "Days" box lists the coming week, including which schedule a LAB day follows.</li>
+      <li><strong>PE uniform is worn on Days 1, 5, and 6.</strong> The teachers confirmed this, and it matches the days PE is on the schedule.</li>
+      <li><strong>Day 1 was the first day of school,</strong> Tue Sep 1 (half day, 12:45 dismissal).</li>
+    </ul>
+    <p>The other LAB days this year are Oct 7, Oct 28, Nov 18, Dec 16, Jan 27, Feb 24, and Apr 28. This app will say which day each one follows once the teachers announce it.</p>
+
+    <h3>Worth confirming with the teachers</h3>
+    <p>This app copies the day numbers printed on the school's draft calendar (dated 6/17/2026). A few spots on that draft don't follow the pattern above:</p>
+    <div class="flag"><strong>Oct 26 is printed as Day 2.</strong>Oct 21 is Day 8, and Oct 22–23 are conference days, so you'd expect Oct 26 to be Day 1.</div>
+    <div class="flag"><strong>Apr 26 is printed as Day 7.</strong>Apr 21 is Day 4, and Apr 22–23 are conference days, so you'd expect Day 5.</div>
+    <div class="flag"><strong>Mar 17–19 have no day numbers, and Apr 5 is printed as Day 8.</strong>Mar 16 is Day 5, so you'd expect Apr 5 to be Day 6. That suggests Days 6 and 7 happen during the musical days. Also, the calendar key says "March 18–20," but the shaded dates are the 17th through 19th.</div>
+    <div class="flag"><strong>Dec 18 and Jun 4 have no day numbers.</strong>Dec 18 is a half day, and Jun 4 is the last day of school.</div>
+    <div class="flag"><strong>Apr 9 (Day 4) is shaded gray</strong> on the printout, and the key doesn't say what gray means.</div>
+    <div class="flag"><strong>Lunch time.</strong>The schedule sheet's time labels are slightly out of line. This app shows lunch at 11:00–11:25.</div>
+    <p><button class="pill" id="openAdmin">Update the app</button></p>
+  </section>
+
+  <section id="view-admin" hidden>
+    <h3 style="margin-top:0">Update a date</h3>
+    <p style="font-size:.95rem;color:var(--muted)">Fill this in, tap Preview to check it, then copy the line and paste it into <code>index.html</code> on GitHub, inside the <code>UPDATES</code> braces near the top of the script.</p>
+    <div class="form">
+      <label>Date<input type="date" id="aDate" min="2026-08-31" max="2027-06-04"></label>
+      <label>What's happening
+        <select id="aKind">
+          <option value="as">LAB day runs as Day…</option>
+          <option value="day">This day is really Day…</option>
+          <option value="closed">No school</option>
+          <option value="special">Special schedule</option>
+          <option value="note">Just add a note</option>
+        </select>
+      </label>
+      <label id="aNumWrap">Day number
+        <select id="aNum">${""}</select>
+      </label>
+      <label>Note or reason<input type="text" id="aWhy" placeholder="Announced in the Oct 2 newsletter"></label>
+      <div class="form-actions">
+        <button class="btn" id="aPreview">Preview on this phone</button>
+        <button class="pill" id="aCopy">Copy line for GitHub</button>
+      </div>
+      <pre id="aOut" class="code"></pre>
+      <p id="aLocalList" style="font-size:.9rem;color:var(--muted)"></p>
+      <button class="pill" id="aClear">Clear all previews on this phone</button>
+    </div>
+  </section>
+
+  <footer>
+    Built by a Flamingo parent from the school's draft 2026–27 Lower School day calendar (6/17/2026), the Flamingos schedule sheet, and teacher emails. It is not an official Ellis tool. MyEllis, Seesaw, and Ms. Shade and Ms. Palma are the final word. Email both teachers with questions, and copy the Lower School office on arrival or dismissal changes. Their addresses are in the Flamingo welcome email. The check and X buttons send only the date and what the app showed, so mistakes can be fixed. No names, no accounts, no tracking of individual families.
+  </footer>
+</div>
+
+<script>
+(function(){
+  // ---------- Data: codes copied from the draft calendar ----------
+  // number = rotation day, "L" = LAB, "X|reason" = no school, "S|label" = special schedule (no number)
+  const CAL = {};
+  function put(ym, spec){ // spec: "day:code,day:code"
+    spec.split(",").forEach(p=>{const i=p.indexOf(":");CAL[ym+"-"+String(p.slice(0,i)).padStart(2,"0")]=p.slice(i+1);});
+  }
+  function closedRange(ym, from, to, reason){ for(let d=from; d<=to; d++){ CAL[ym+"-"+String(d).padStart(2,"0")] = "X|"+reason; } }
+  put("2026-08","31:X|Lower School parent conferences (school starts Sep 1)");
+  put("2026-09","1:1,2:2,3:3,4:4,7:X|Labor Day,8:5,9:6,10:7,11:8,14:1,15:2,16:L,17:3,18:4,21:X|Yom Kippur,22:5,23:6,24:7,25:8,28:1,29:2,30:3");
+  put("2026-10","1:4,2:5,5:6,6:7,7:L,8:8,9:1,12:X|In-service day for faculty,13:2,14:3,15:4,16:5,19:6,20:7,21:8,22:X|Lower School parent conferences,23:X|Lower School parent conferences,26:2,27:3,28:L,29:4,30:5");
+  put("2026-11","2:6,3:7,4:8,5:1,6:X|In-service day for faculty,9:2,10:3,11:4,12:5,13:6,16:7,17:8,18:L,19:1,20:2,30:3");
+  closedRange("2026-11",23,27,"Thanksgiving break");
+  put("2026-12","1:4,2:5,3:6,4:7,7:8,8:1,9:2,10:3,11:4,14:5,15:6,16:L,17:7,18:S|Half day before winter break");
+  closedRange("2026-12",21,31,"Winter break");
+  put("2027-01","1:X|Winter break,4:X|In-service day for faculty,5:8,6:1,7:2,8:3,11:4,12:5,13:6,14:7,15:8,18:X|MLK Jr. Day,19:1,20:2,21:3,22:4,25:5,26:6,27:L,28:7,29:8");
+  put("2027-02","1:1,2:2,3:3,4:4,5:5,8:6,9:7,10:8,11:1,12:X|In-service day for faculty,15:X|Presidents' Day,16:2,17:3,18:4,19:5,22:6,23:7,24:L,25:8,26:1");
+  put("2027-03","1:2,2:3,3:4,4:5,5:6,8:7,9:8,10:1,11:2,12:3,15:4,16:5,17:S|Lower School musical performances,18:S|Lower School musical performances,19:S|Lower School musical performances");
+  closedRange("2027-03",22,31,"Spring break");
+  put("2027-04","1:X|Spring break,2:X|Spring break,5:8,6:1,7:2,8:3,9:4,12:5,13:6,14:7,15:8,16:1,19:2,20:3,21:4,22:X|Lower School parent conferences,23:X|Lower School parent conferences,26:7,27:8,28:L,29:1,30:2");
+  put("2027-05","3:3,4:4,5:5,6:6,7:7,10:8,11:1,12:2,13:3,14:4,17:5,18:6,19:7,20:8,21:1,24:2,25:3,26:4,27:5,28:6,31:X|Memorial Day");
+  put("2027-06","1:7,2:8,3:1,4:S|Last day of school");
+  const NOTES = {
+    "2026-09-01":"First day of school. Half day with 12:45 dismissal. The rest of Day 1 was made up on Wed Sep 16 (LAB day).",
+    "2026-10-26":"The draft calendar prints Day 2 here. The pattern suggests Day 1, so check with the teachers.",
+    "2026-12-16":"The winter party is on Friday, Dec 18.",
+    "2027-04-09":"This date is shaded gray on the printed calendar, and the key doesn't explain it.",
+    "2027-04-26":"The draft calendar prints Day 7 here. The pattern suggests Day 5, so check with the teachers."
+  };
+
+  // ===================================================================
+  //  FEEDBACK — paste your Google Form values here to turn on the
+  //  "Is this right?" buttons and usage counting. See the README.
+  //  Leave formUrl empty and the buttons stay hidden.
+  // ===================================================================
+  const FEEDBACK = {
+    formUrl: "",      // .../formResponse
+    dateField: "",    // entry.1111111111  (the date shown)
+    dayField:  "",    // entry.2222222222  (what the app said)
+    voteField: "",    // entry.3333333333  (right / wrong / opened)
+    noteField: ""     // entry.4444444444  (optional note, can stay empty)
+  };
+
+  // ===================================================================
+  //  RED WORDS and LETTERS — add each week's from the Flamingo newsletter.
+  // ===================================================================
+  const RED_WORDS = [
+    {w:"the", week:"Sep 14"},
+    {w:"was", week:"Sep 21"}
+  ];
+  const LETTERS = [
+    {l:"Mm", week:"Sep 14"},
+    {l:"Aa", week:"Sep 21"}
+  ];
+
+  // ===================================================================
+  //  UPDATES — the only part you need to edit.
+  //  Use the Update page inside the app to generate these lines,
+  //  then paste them between the braces below and commit.
+  // ===================================================================
+  const UPDATES = {
+    "2026-09-16": {as:1, why:"Make-up for the half-day first day of school (Sep 1), per the Sep 14–18 Flamingo newsletter."}
+  };
+  // ===================================================================
+
+  // ---------- Schedule ----------
+  const ROT = { // blocks A 8:30, B 9:10, C 10:05, D 12:20, E 1:15, F 1:55
+    1:["Music","PE","Reading","Math","Humanities","FLEX"],
+    2:["Assembly","Humanities","Reading","Math","Spanish","Library"],
+    3:["Art","STEM","Reading","Math","Humanities","FLEX"],
+    4:["Reading","FLEX","Humanities","Math","Spanish","Library"],
+    5:["Math","PE","Reading","Humanities","Art","STEM"],
+    6:["Math","Wellness","Reading","Humanities","PE","Music"],
+    7:["Reading","FLEX","Humanities","Math","Spanish","Art"],
+    8:["STEM","Math","Reading","Humanities","Library","Music"]
+  };
+  const CORE = ["Reading","Math","Humanities","FLEX"];
+  const SLOTS = [
+    ["8:00–8:30","Morning meeting"],["8:30–9:10",0],["9:10–9:50",1],["9:50–10:05","Snack"],
+    ["10:05–10:45",2],["10:45–11:00","Homeroom"],["11:00–11:25","Lunch"],["11:30–12:00","Recess"],
+    ["12:00–12:20","Quiet time"],["12:20–1:15",3],["1:15–1:55",4],["1:55–2:35",5],
+    ["2:35–2:55","Closing meeting"],["2:55–3:15","Dismissal"]
+  ];
+  const specials = n => ROT[n].filter(s=>!CORE.includes(s));
+  const isPE = n => ROT[n].includes("PE");
+
+  // ---------- Date helpers (local time, no UTC drift) ----------
+  const pad = n => String(n).padStart(2,"0");
+  const key = d => d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate());
+  const fromKey = k => { const [y,m,d]=k.split("-").map(Number); return new Date(y,m-1,d); };
+  const addDays = (d,n) => { const x=new Date(d); x.setDate(x.getDate()+n); return x; };
+  const fmt = (d,o) => d.toLocaleDateString("en-US",o);
+  const FIRST = fromKey("2026-08-31"), LAST = fromKey("2027-06-04");
+  let LOCAL = {};
+  try { LOCAL = JSON.parse(localStorage.getItem("ff-local") || "{}"); } catch(e){ LOCAL = {}; }
+  const upd = k => LOCAL[k] || UPDATES[k] || null;
+
+  const baseInfo = k => {
+    const c = CAL[k]; const d = fromKey(k); const wd = d.getDay();
+    if (c === undefined) {
+      if (wd===0||wd===6) return {type:"weekend"};
+      if (d < FIRST) return {type:"out", text:"Before the 2026–27 school year"};
+      if (d > LAST) return {type:"out", text:"Summer break"};
+      return {type:"unknown"};
+    }
+    if (c === "L") return {type:"lab", as:null};
+    if (c.startsWith("X|")) return {type:"closed", text:c.slice(2)};
+    if (c.startsWith("S|")) return {type:"special", text:c.slice(2)};
+    return {type:"day", n:Number(c)};
+  };
+  const info = k => {
+    let t = baseInfo(k); const o = upd(k);
+    if (o){
+      t = Object.assign({}, t);
+      if (o.closed) t = {type:"closed", text:o.closed};
+      else if (o.special) t = {type:"special", text:o.special};
+      else if (o.day) t = {type:"day", n:o.day};
+      else if (o.as) t = {type:"lab", as:{n:o.as, why:o.why||""}};
+      if (o.why && !(o.as)) t.why = o.why;
+      t.local = !!LOCAL[k];
+    }
+    t.note = (o && o.note) || NOTES[k] || null;
+    return t;
+  };
+  const isSchoolDay = k => { const t = info(k).type; return t==="day"||t==="lab"||t==="special"; };
+  function nextSchool(d, dir){ let x=addDays(d,dir); for(let i=0;i<400;i++){ const k=key(x); if(x<FIRST||x>LAST) return null; if(isSchoolDay(k)) return x; x=addDays(x,dir);} return null; }
+  function nextNumbered(d){ let x=addDays(d,1); for(let i=0;i<60;i++){ const t=info(key(x)); if(t.type==="day") return {d:x,n:t.n}; x=addDays(x,1);} return null; }
+
+  // ---------- State ----------
+  const today = new Date(); today.setHours(0,0,0,0);
+  let cur = new Date(today);
+  if (cur < FIRST) cur = new Date(FIRST);
+  if (cur > LAST) cur = new Date(LAST);
+  let monthCursor = new Date(cur.getFullYear(), cur.getMonth(), 1);
+
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s).replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  const shirt = '<svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M8 3l-5 3 2 4 3-1v12h8V9l3 1 2-4-5-3c-.5 1.5-2 2.5-4 2.5S8.5 4.5 8 3z"/></svg>';
+
+  function heroHTML(k){
+    const t = info(k), d = fromKey(k);
+    const nn = nextNumbered(d);
+    const nextLine = nn ? `Next numbered day: ${fmt(nn.d,{weekday:"short",month:"short",day:"numeric"})} is Day ${nn.n}${isPE(nn.n)?" (PE uniform)":""}.` : "";
+    if (t.type==="day"){
+      const pe = isPE(t.n);
+      return `<div class="hero"><div class="disc"><span class="d">Day</span><span class="n">${t.n}</span></div>
+        <h2>${pe?"PE day":"Regular day"}</h2>
+        <div><p>Specials today</p><div class="chips">${specials(t.n).map(s=>`<span class="chip">${esc(s)}</span>`).join("")}</div></div>
+        <div class="full">${t.note?`<p>${esc(t.note)}</p>`:""}${t.local?`<p class="preview">Preview on this phone only. Paste the line into GitHub to share it.</p>`:""}
+        <div class="uniform ${pe?"pe":""}">${shirt}${pe?"Wear the PE uniform":"Regular uniform"}</div></div></div>`;
+    }
+    if (t.type==="lab" && t.as){
+      const n = t.as.n, pe = isPE(n);
+      return `<div class="hero lab"><div class="disc word"><span class="n">LAB</span></div>
+        <h2>LAB day, run as Day ${n}</h2>
+        <div><p>Specials</p><div class="chips">${specials(n).map(s=>`<span class="chip">${esc(s)}</span>`).join("")}</div></div>
+        <div class="full"><p>${esc(t.as.why)} It isn't counted in the 1–8 rotation.</p><p>${esc(nextLine)}</p>
+        <div class="uniform ${pe?"pe":""}">${shirt}${pe?"Wear the PE uniform":"Regular uniform"}</div></div></div>`;
+    }
+    if (t.type==="lab"){
+      return `<div class="hero lab"><div class="disc word"><span class="n">LAB</span></div>
+        <h2>LAB day</h2><p>Not counted in the 1–8 rotation. The teachers say which day's schedule it follows, usually in the Friday Seesaw newsletter the week before.</p>
+        <div class="full"><p>${esc(nextLine)}</p><p>Not announced here yet. Check Seesaw for which day it follows and whether it's a PE uniform day.</p></div></div>`;
+    }
+    if (t.type==="closed"){
+      return `<div class="hero closed"><div class="disc word"><span class="n">No<br>school</span></div>
+        <h2>${esc(t.text)}</h2><p>No school for kindergarten students.</p>
+        <div class="full">${t.note?`<p>${esc(t.note)}</p>`:""}${t.local?`<p class="preview">Preview on this phone only.</p>`:""}<p>${esc(nextLine)}</p></div></div>`;
+    }
+    if (t.type==="special"){
+      return `<div class="hero special"><div class="disc word"><span class="n">Special</span></div>
+        <h2>${esc(t.text)}</h2><p>The printed calendar gives this day no day number. Watch for the teachers' schedule.</p>
+        <div class="full"><p>${esc(nextLine)}</p></div></div>`;
+    }
+    if (t.type==="weekend"){
+      return `<div class="hero closed"><div class="disc word"><span class="n">Week&shy;end</span></div>
+        <h2>No school</h2><p>${esc(nextLine)}</p></div>`;
+    }
+    return `<div class="hero closed"><div class="disc word"><span class="n">–</span></div>
+      <h2>${esc(t.text||"Not on the calendar")}</h2><p>This date isn't on the 2026–27 day calendar.</p></div>`;
+  }
+
+  function detailHTML(k){
+    const t = info(k);
+    const n = t.type==="day" ? t.n : (t.type==="lab" && t.as ? t.as.n : null);
+    if (!n) return "";
+    const r = ROT[n];
+    return `<h3>Day ${n} schedule${t.type==="lab"?" (LAB day)":""}</h3><ol class="timeline">` + SLOTS.map(([tm,v])=>{
+      if (typeof v === "number"){ const s=r[v]; const core=CORE.includes(s);
+        return `<li><span class="t">${tm}</span><span class="blk ${core?esc(s):"special-tag"}">${esc(s)}</span></li>`; }
+      return `<li><span class="t">${tm}</span><span class="blk shared">${esc(v)}</span></li>`;
+    }).join("") + `</ol>`;
+  }
+
+  function upnextHTML(k){
+    // Weekdays only, but no-school days are shown too, so a gap never looks like a bug.
+    let x = fromKey(k), out = [];
+    for (let guard=0; guard<40 && out.length<5; guard++){
+      x = addDays(x,1);
+      if (x > LAST) break;
+      const wd = x.getDay(); if (wd===0 || wd===6) continue;
+      if (x < FIRST) continue;
+      out.push(new Date(x));
+    }
+    return out.map(d=>{ const kk=key(d), t=info(kk);
+      const v = t.type==="day" ? t.n : t.type==="lab" ? "LAB" : t.type==="special" ? "★" : "Off";
+      const rn = t.type==="day" ? t.n : (t.type==="lab" && t.as ? t.as.n : 0);
+      const note = rn && isPE(rn) ? "PE" : (t.type==="closed" ? "no school" : "");
+      const cls = t.type==="closed" ? " class=\"off\"" : "";
+      const why = t.type==="closed" ? ", "+t.text : "";
+      return `<button${cls} data-k="${kk}" aria-label="${fmt(d,{weekday:"long",month:"long",day:"numeric"})}${esc(why)}"><span class="wd">${fmt(d,{weekday:"short"})} ${d.getDate()}</span><span class="v">${v}</span><span class="pe">${note}</span></button>`;
+    }).join("") || `<p>No more school days this year.</p>`;
+  }
+
+  function copyLine(k){
+    const d = fromKey(k); let n = nextSchool(d,1); if(!n) return "No more school days this year.";
+    const t = info(key(n)); const when = fmt(n,{weekday:"long",month:"short",day:"numeric"});
+    if (t.type==="day") return `Flamingos: ${when} is Day ${t.n}. ${isPE(t.n)?"PE uniform. ":"Regular uniform. "}Specials: ${specials(t.n).join(", ")}.`;
+    if (t.type==="lab" && t.as) return `Flamingos: ${when} is a LAB day, run as Day ${t.as.n}. ${isPE(t.as.n)?"PE uniform. ":"Regular uniform. "}Specials: ${specials(t.as.n).join(", ")}.`;
+    if (t.type==="lab") return `Flamingos: ${when} is a LAB day. Check Seesaw for which day's schedule it follows.`;
+    return `Flamingos: ${when}: ${t.text}.`;
+  }
+
+  // ---------- Feedback and usage counting ----------
+  const fbOn = () => !!(FEEDBACK.formUrl && FEEDBACK.voteField);
+  let VOTED = {};
+  try { VOTED = JSON.parse(localStorage.getItem("ff-voted") || "{}"); } catch(e){ VOTED = {}; }
+
+  function sendFB(dateKey, shown, vote, note){
+    if (!fbOn()) return;
+    const body = new URLSearchParams();
+    if (FEEDBACK.dateField) body.append(FEEDBACK.dateField, dateKey);
+    if (FEEDBACK.dayField)  body.append(FEEDBACK.dayField, shown);
+    body.append(FEEDBACK.voteField, vote);
+    if (FEEDBACK.noteField && note) body.append(FEEDBACK.noteField, note);
+    // no-cors: the form accepts the post, the browser just can't read the reply
+    fetch(FEEDBACK.formUrl, {method:"POST", mode:"no-cors", body}).catch(()=>{});
+  }
+
+  function shownLabel(k){
+    const t = info(k);
+    if (t.type==="day") return "Day "+t.n;
+    if (t.type==="lab") return t.as ? "LAB as Day "+t.as.n : "LAB";
+    if (t.type==="closed") return "No school";
+    if (t.type==="special") return "Special";
+    return t.type;
+  }
+
+  function feedbackHTML(k){
+    const t = info(k);
+    if (!fbOn()) return "";
+    if (!(t.type==="day" || t.type==="lab" || t.type==="closed" || t.type==="special")) return "";
+    if (VOTED[k]) return `<div class="fb done">Thanks for checking. ${VOTED[k]==="wrong"?"Flagged for review.":""}</div>`;
+    return `<div class="fb"><span>Is this right?</span>
+      <button class="fbBtn yes" data-vote="right" data-k="${k}" aria-label="Yes, this is right">✓</button>
+      <button class="fbBtn no" data-vote="wrong" data-k="${k}" aria-label="No, this is wrong">✗</button></div>`;
+  }
+
+  document.addEventListener("click", e => {
+    const b = e.target.closest(".fbBtn"); if (!b) return;
+    const k = b.dataset.k, vote = b.dataset.vote;
+    let note = "";
+    if (vote === "wrong") note = prompt("Thanks. What should it say? (optional)") || "";
+    sendFB(k, shownLabel(k), vote, note);
+    VOTED[k] = vote;
+    try { localStorage.setItem("ff-voted", JSON.stringify(VOTED)); } catch(err){}
+    $("feedback").innerHTML = feedbackHTML(k);
+  });
+
+  // One quiet ping per device per day, so you can see how many families use it.
+  (function ping(){
+    if (!fbOn()) return;
+    const tk = key(today);
+    try { if (localStorage.getItem("ff-ping") === tk) return; localStorage.setItem("ff-ping", tk); } catch(e){}
+    sendFB(tk, shownLabel(tk), "opened", "");
+  })();
+
+  function renderToday(){
+    const k = key(cur);
+    const isT = key(today)===k;
+    $("dateLabel").innerHTML = `${fmt(cur,{weekday:"long",month:"short",day:"numeric"})}<span>${isT?"Today":fmt(cur,{year:"numeric"})}</span>`;
+    $("picker").value = k;
+    $("hero").innerHTML = heroHTML(k);
+    $("dayDetail").innerHTML = detailHTML(k);
+    $("feedback").innerHTML = feedbackHTML(k);
+    $("upnext").innerHTML = upnextHTML(k);
+    $("copyText").textContent = copyLine(k);
+    $("prev").disabled = !nextSchool(cur,-1);
+    $("next").disabled = !nextSchool(cur,1);
+  }
+
+  function renderMonth(){
+    const y=monthCursor.getFullYear(), m=monthCursor.getMonth();
+    $("mTitle").textContent = fmt(monthCursor,{month:"long",year:"numeric"});
+    let html = ["Mon","Tue","Wed","Thu","Fri"].map(w=>`<div class="wh">${w}</div>`).join("");
+    const first = new Date(y,m,1); let lead = (first.getDay()+6)%7; // Mon=0
+    if (lead>4) lead = 0;
+    for (let i=0;i<lead;i++) html += `<div class="blank"></div>`;
+    for (let d=1; d<=new Date(y,m+1,0).getDate(); d++){
+      const dt = new Date(y,m,d), wd = dt.getDay(); if (wd===0||wd===6) continue;
+      const k = key(dt), t = info(k);
+      let cls="", v="", title="";
+      if (t.type==="day"){ v = t.n + (isPE(t.n)?" <small>PE</small>":""); }
+      else if (t.type==="lab"){ cls="is-lab"; v = t.as ? `LAB<small> =${t.as.n}${isPE(t.as.n)?" PE":""}</small>` : "LAB"; }
+      else if (t.type==="closed"){ cls="is-closed"; v="Off"; title=t.text; }
+      else if (t.type==="special"){ cls="is-special"; v="★"; }
+      if (k===key(today)) cls+=" is-today";
+      html += `<button class="${cls}" title="${esc(title)}" data-k="${k}" aria-label="${fmt(dt,{weekday:"long",month:"long",day:"numeric"})}${title?", "+esc(title):""}"><span class="dn">${d}</span><span class="dv">${v}</span></button>`;
+    }
+    $("cal").innerHTML = html;
+    $("mPrev").disabled = (y===2026 && m<=7);
+    $("mNext").disabled = (y===2027 && m>=5);
+  }
+
+  function renderGrid(){
+    let h = `<tr><th class="time">Time</th>` + [1,2,3,4,5,6,7,8].map(n=>`<th class="${isPE(n)?"pe-col":""}">Day ${n}</th>`).join("") + `</tr>`;
+    SLOTS.forEach(([tm,v])=>{
+      if (typeof v === "number"){
+        h += `<tr><td class="time">${tm}</td>` + [1,2,3,4,5,6,7,8].map(n=>{const s=ROT[n][v];
+          return `<td class="${CORE.includes(s)?esc(s):""} ${isPE(n)?"pe-col":""}">${esc(s)}</td>`;}).join("") + `</tr>`;
+      } else {
+        h += `<tr><td class="time">${tm}</td><td class="all" colspan="8">${esc(v)}</td></tr>`;
+      }
+    });
+    $("grid").innerHTML = h;
+  }
+
+  // ---------- Events ----------
+  function show(view){
+    document.querySelectorAll(".tabs button").forEach(b=>b.setAttribute("aria-selected", b.dataset.view===view));
+    ["today","month","words","grid","how","admin"].forEach(v=>$("view-"+v).hidden = v!==view);
+    if (view==="words") renderWords();
+    document.querySelectorAll(".tabs button").forEach(b=>{ if(view==="admin") b.setAttribute("aria-selected","false"); });
+    if (view==="month") renderMonth();
+    try { sessionStorage.setItem("ff-view", view); } catch(e){}
+  }
+  document.querySelectorAll(".tabs button").forEach(b=>b.addEventListener("click",()=>show(b.dataset.view)));
+  $("prev").addEventListener("click",()=>{ const x=nextSchool(cur,-1); if(x){cur=x;renderToday();} });
+  $("next").addEventListener("click",()=>{ const x=nextSchool(cur,1); if(x){cur=x;renderToday();} });
+  $("goToday").addEventListener("click",()=>{ cur=new Date(today); if(cur<FIRST)cur=new Date(FIRST); if(cur>LAST)cur=new Date(LAST); renderToday(); });
+  $("picker").addEventListener("change",e=>{ if(e.target.value){ cur=fromKey(e.target.value); renderToday(); }});
+  $("upnext").addEventListener("click",e=>{ const b=e.target.closest("button[data-k]"); if(b){ cur=fromKey(b.dataset.k); renderToday(); window.scrollTo({top:0}); }});
+  $("cal").addEventListener("click",e=>{ const b=e.target.closest("button[data-k]"); if(b){ cur=fromKey(b.dataset.k); renderToday(); show("today"); window.scrollTo({top:0}); }});
+  $("mPrev").addEventListener("click",()=>{ monthCursor=new Date(monthCursor.getFullYear(),monthCursor.getMonth()-1,1); renderMonth(); });
+  $("mNext").addEventListener("click",()=>{ monthCursor=new Date(monthCursor.getFullYear(),monthCursor.getMonth()+1,1); renderMonth(); });
+  $("copyBtn").addEventListener("click",async()=>{
+    const txt = $("copyText").textContent;
+    try { await navigator.clipboard.writeText(txt); $("copyBtn").textContent="Copied"; }
+    catch(e){ const r=document.createRange(); r.selectNodeContents($("copyText")); const s=getSelection(); s.removeAllRanges(); s.addRange(r); $("copyBtn").textContent="Text selected, tap Copy"; }
+    setTimeout(()=>{$("copyBtn").textContent="Copy for the group chat";},2500);
+  });
+
+  // ---------- Red Words ----------
+  let wi = RED_WORDS.length - 1;               // start on the newest word
+  let KNOWN = {};
+  try { KNOWN = JSON.parse(localStorage.getItem("ff-known") || "{}"); } catch(e){ KNOWN = {}; }
+  const canSpeak = "speechSynthesis" in window;
+
+  function speak(parts, onEach, onDone){
+    if (!canSpeak) return;
+    speechSynthesis.cancel();
+    parts.forEach((txt,i)=>{
+      const u = new SpeechSynthesisUtterance(txt);
+      u.lang = "en-US"; u.rate = 0.75;
+      u.onstart = () => onEach && onEach(i);
+      if (i === parts.length-1) u.onend = () => onDone && onDone();
+      speechSynthesis.speak(u);
+    });
+  }
+  function lightTile(i){
+    document.querySelectorAll("#wordCard .tiles span").forEach((s,j)=>s.classList.toggle("on", i==="all" || j===i));
+  }
+
+  function renderWords(){
+    if (!RED_WORDS.length){ $("wordCard").innerHTML = "<p>No Red Words yet.</p>"; return; }
+    const w = RED_WORDS[wi].w, known = !!KNOWN[w];
+    const allKnown = RED_WORDS.every(x=>KNOWN[x.w]);
+    $("wordCard").innerHTML = `
+      <div class="wc-word pop" aria-label="${esc(w)}">${esc(w)}</div>
+      <div class="wc-star">${known?"⭐":""}</div>
+      <div class="tiles">${[...w].map(ch=>`<span>${esc(ch)}</span>`).join("")}</div>
+      <div class="wc-actions">
+        ${canSpeak?`<button data-act="say">🔊 Say it</button><button data-act="spell">Spell it</button>`:""}
+        <button data-act="know" class="${known?"known":"know"}">${known?"Got it! ⭐":"I know it!"}</button>
+      </div>
+      ${allKnown?`<p class="cheer">Every Red Word so far. Hooray! 🦩</p>`:""}`;
+    $("wCount").textContent = `${wi+1} of ${RED_WORDS.length}`;
+    $("wPrev").disabled = wi===0; $("wNext").disabled = wi===RED_WORDS.length-1;
+    $("wordList").innerHTML = RED_WORDS.map((x,i)=>`<button class="${i===wi?"cur":""}" data-i="${i}">${esc(x.w)}${KNOWN[x.w]?" ⭐":""}<small>${esc(x.week)}</small></button>`).join("");
+    $("letterList").innerHTML = LETTERS.map(x=>`<button data-l="${esc(x.l)}" aria-label="Letter ${esc(x.l[0])}">${esc(x.l)}<small>${esc(x.week)}</small></button>`).join("");
+  }
+
+  $("wordCard").addEventListener("click", e=>{
+    const b = e.target.closest("button[data-act]"); if(!b) return;
+    const w = RED_WORDS[wi].w;
+    if (b.dataset.act==="say") speak([w], ()=>lightTile("all"), ()=>lightTile(-1));
+    if (b.dataset.act==="spell") speak([...w.toUpperCase()].map(c=>c).concat([w]), i=>lightTile(i < w.length ? i : "all"), ()=>lightTile(-1));
+    if (b.dataset.act==="know"){
+      if (KNOWN[w]) delete KNOWN[w]; else KNOWN[w] = true;
+      try { localStorage.setItem("ff-known", JSON.stringify(KNOWN)); } catch(err){}
+      renderWords();
+    }
+  });
+  $("wPrev").addEventListener("click",()=>{ if(wi>0){wi--; renderWords();} });
+  $("wNext").addEventListener("click",()=>{ if(wi<RED_WORDS.length-1){wi++; renderWords();} });
+  $("wordList").addEventListener("click",e=>{ const b=e.target.closest("button[data-i]"); if(b){ wi=Number(b.dataset.i); renderWords(); }});
+  $("letterList").addEventListener("click",e=>{ const b=e.target.closest("button[data-l]"); if(b) speak([b.dataset.l[0]]); });
+
+  // ---------- Update page ----------
+  $("aNum").innerHTML = [1,2,3,4,5,6,7,8].map(n=>`<option value="${n}">Day ${n}${isPE(n)?" (PE uniform)":""}</option>`).join("");
+  $("openAdmin").addEventListener("click",()=>{ $("aDate").value = $("aDate").value || key(cur); show("admin"); buildLine(); window.scrollTo({top:0}); });
+  function kindNeedsNum(){ const k=$("aKind").value; return k==="as"||k==="day"; }
+  function syncForm(){ $("aNumWrap").hidden = !kindNeedsNum(); buildLine(); }
+  ["aKind","aDate","aNum","aWhy"].forEach(id=>$(id).addEventListener("input",syncForm));
+  function entry(){
+    const d=$("aDate").value; if(!d) return null;
+    const kind=$("aKind").value, n=Number($("aNum").value), why=$("aWhy").value.trim();
+    const o={};
+    if(kind==="as") o.as=n; else if(kind==="day") o.day=n;
+    else if(kind==="closed") o.closed=why||"No school";
+    else if(kind==="special") o.special=why||"Special schedule";
+    if(kind==="note") o.note=why;
+    else if(why && kind!=="closed" && kind!=="special") o.why=why;
+    return {d,o};
+  }
+  function buildLine(){
+    const e=entry();
+    $("aOut").textContent = e ? `"${e.d}": ${JSON.stringify(e.o).replace(/"(\w+)":/g,"$1:")},` : "Pick a date to get your line.";
+  }
+  $("aPreview").addEventListener("click",()=>{
+    const e=entry(); if(!e) return;
+    LOCAL[e.d]=e.o;
+    try { localStorage.setItem("ff-local", JSON.stringify(LOCAL)); } catch(err){}
+    cur=fromKey(e.d); renderToday(); show("today"); window.scrollTo({top:0});
+  });
+  $("aCopy").addEventListener("click",async()=>{
+    const txt=$("aOut").textContent;
+    try { await navigator.clipboard.writeText(txt); $("aCopy").textContent="Copied"; }
+    catch(err){ $("aCopy").textContent="Select the line above to copy"; }
+    setTimeout(()=>{$("aCopy").textContent="Copy line for GitHub";},2500);
+  });
+  $("aClear").addEventListener("click",()=>{
+    LOCAL={}; try{ localStorage.removeItem("ff-local"); }catch(err){}
+    renderToday(); listLocal();
+  });
+  function listLocal(){
+    const ks=Object.keys(LOCAL);
+    $("aLocalList").textContent = ks.length ? "Previewing on this phone: "+ks.join(", ")+". These are not live for other parents until you paste them into GitHub." : "No previews saved on this phone.";
+  }
+  syncForm(); listLocal();
+
+  renderToday(); renderGrid();
+  let startView = "today"; try { startView = sessionStorage.getItem("ff-view") || "today"; } catch(e){}
+  show(startView);
+})();
+</script>
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("sw.js").catch(() => {});
+  });
+}
+</script>
+</body>
+</html>
