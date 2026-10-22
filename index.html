@@ -2,19 +2,21 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Flamingos Day Finder</title>
 <meta name="description" content="Which rotation day is it for Ellis kindergarten Flamingos, and is it a PE uniform day?">
-<link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#E8456F">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Day Finder">
+<link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon-192.png">
 <link rel="icon" href="icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
 <style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
 :root{
   --bg:#FFF9FA; --surface:#FFFFFF; --ink:#1F2A44; --muted:#5B6478; --line:#F1D9DF;
   --flamingo:#E8456F; --flamingo-soft:#FFE1E9; --on-flamingo:#FFFFFF;
@@ -79,6 +81,54 @@ button{cursor:pointer}
 .chip{padding:4px 12px;border-radius:999px;background:var(--surface);font-weight:700;font-size:.9rem}
 .uniform{display:flex;align-items:center;gap:10px;margin-top:14px;padding:10px 14px;border-radius:16px;background:var(--surface);font-weight:700}
 .uniform.pe{background:var(--green);color:#fff}
+.uniform.wear{background:var(--special);color:#1F2A44}
+.events{margin-top:14px;background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:4px 16px 12px}
+.events h3{margin:12px 0 6px}
+.events ul{list-style:none;margin:0;padding:0}
+.events li{padding:8px 0;border-top:1px solid var(--line)}
+.events li:first-child{border-top:0}
+.events li span{display:block;color:var(--muted);font-size:.9rem;margin-top:2px}
+.cal button.has-ev{position:relative}
+.cal button.has-ev::after{content:"";position:absolute;top:7px;right:7px;width:8px;height:8px;border-radius:50%;background:var(--flamingo)}
+.cal .is-lab.has-ev::after,.cal .is-special.has-ev::after{background:var(--ink)}
+.evening{margin:0 0 10px;padding:8px 14px;border-radius:14px;background:var(--flex);font-size:.9rem}
+.packbox{margin-top:14px;background:var(--green-soft);border-radius:20px;padding:4px 16px 12px}
+.packbox h3{margin:12px 0 6px}
+.packbox ul{list-style:none;margin:0;padding:0}
+.packbox li{padding:6px 0}
+.packbox label{display:flex;gap:10px;align-items:flex-start;cursor:pointer}
+.packbox input{width:22px;height:22px;accent-color:var(--green);flex:none;margin-top:1px}
+.packbox input:checked + span{text-decoration:line-through;color:var(--muted)}
+.countdowns{display:grid;gap:6px;margin-top:10px}
+.countdowns button{display:flex;justify-content:space-between;gap:10px;align-items:baseline;text-align:left;border:1px solid var(--line);background:var(--surface);border-radius:14px;padding:9px 14px}
+.countdowns span{color:var(--flamingo);font-weight:700;white-space:nowrap;font-size:.9rem}
+.countdowns .off span{color:var(--closed)}
+.party{position:relative;overflow:hidden;margin-bottom:12px;border-radius:20px;background:var(--special);color:#1F2A44;padding:10px 16px 12px;text-align:center;font-family:var(--disp);font-weight:600;font-size:1.1rem}
+.party p{margin:0}
+.parade{height:40px;position:relative;font-size:1.9rem}
+.parade span{position:absolute;top:0;left:calc(var(--i) * 14%)}
+@media (prefers-reduced-motion:no-preference){
+  .parade span{left:-12%;animation:strut 4.2s linear calc(var(--i) * .45s) 2 both}
+  @keyframes strut{0%{left:-12%;transform:translateY(0)}25%{transform:translateY(-6px)}50%{transform:translateY(0)}75%{transform:translateY(-6px)}100%{left:108%;transform:translateY(0)}}
+  .kbird.dance{animation:dance 1.1s ease-in-out infinite}
+  @keyframes dance{0%,100%{transform:rotate(-8deg) translateY(0)}50%{transform:rotate(8deg) translateY(-8px)}}
+  .kcard.tap,.kwear.tap{animation:boop .35s ease-out}
+  @keyframes boop{40%{transform:scale(1.08)}}
+}
+.kid{text-align:center;background:var(--flamingo-soft);border-radius:28px;padding:20px 14px 18px}
+.kbird{font-size:4.5rem;line-height:1;display:inline-block}
+.kid h2{font-family:var(--disp);font-weight:700;font-size:1.75rem;text-wrap:balance;line-height:1.1;margin:8px 0 14px;color:var(--ink)}
+.ksub{font-size:1.2rem;margin:0}
+.kcards{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.kcard,.kwear{border:0;border-radius:22px;background:var(--surface);padding:14px 8px;font-family:var(--disp);font-weight:600;font-size:1.15rem;display:flex;flex-direction:column;align-items:center;gap:4px}
+.kcard .ki,.kwear .ki{font-size:2.6rem;line-height:1.1}
+.kcard.ev{background:var(--special);color:#1F2A44}
+.kwear{width:100%;margin-top:10px;flex-direction:row;justify-content:center;gap:10px}
+.kwear .ki{font-size:2rem}
+.kwear.pe{background:var(--green);color:#fff}
+.kidnav{display:flex;justify-content:space-between;margin:12px 0 4px}
+a.btn{display:inline-block;text-decoration:none}
+.legend .evdot{border-radius:50%;background:var(--flamingo);width:9px;height:9px}
 .uniform svg{flex:none}
 
 h3{font-family:var(--disp);font-weight:600;font-size:1.1rem;margin:26px 0 10px}
@@ -87,7 +137,7 @@ h3{font-family:var(--disp);font-weight:600;font-size:1.1rem;margin:26px 0 10px}
 .timeline .t{font-size:.82rem;color:var(--muted);font-variant-numeric:tabular-nums}
 .blk{padding:6px 12px;border-radius:10px;background:var(--plain);font-weight:700}
 .blk.shared{background:none;padding-left:0;font-weight:400;color:var(--muted)}
-.Reading{background:var(--reading)} .Math{background:var(--math)} .Humanities{background:var(--hum)} .FLEX{background:var(--flex)}
+.Reading{background:var(--reading)} .Math{background:var(--math)} .Humanities{background:var(--hum)} .FLEX{background:var(--flex)} .Enrichment{background:color-mix(in srgb,var(--math) 55%,var(--surface))}
 .special-tag{border:2px solid var(--flamingo)}
 
 .upnext{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
@@ -173,11 +223,12 @@ footer a{color:var(--green)}
 <body>
 <div class="wrap">
   <header class="top">
-    <p class="brand">Flamingos Day Finder<small>Ellis Lower School kindergarten, homeroom KA, 2026–27</small></p>
+    <p class="brand">Flamingos Day Finder <span id="season" aria-hidden="true"></span><small>Ellis Lower School kindergarten, homeroom KA, 2026–27</small></p>
   </header>
 
   <nav class="tabs" role="tablist" aria-label="Views">
     <button role="tab" aria-selected="true" data-view="today">Day</button>
+    <button role="tab" aria-selected="false" data-view="kid">Kids</button>
     <button role="tab" aria-selected="false" data-view="month">Month</button>
     <button role="tab" aria-selected="false" data-view="words">Words</button>
     <button role="tab" aria-selected="false" data-view="grid">Grid</button>
@@ -194,11 +245,16 @@ footer a{color:var(--green)}
       <button class="pill" id="goToday">Today</button>
       <label class="pill">Pick a date <input type="date" id="picker" min="2026-08-31" max="2027-06-04"></label>
     </div>
+    <p class="evening" id="eveningNote" hidden>🌙 It's after school, so this shows the next school day. Tap Today to go back.</p>
+    <div id="party" aria-live="polite"></div>
     <div id="hero"></div>
+    <div id="events"></div>
+    <div id="pack"></div>
     <div id="feedback"></div>
     <div id="dayDetail"></div>
     <h3>Coming up</h3>
     <div class="upnext" id="upnext"></div>
+    <div class="countdowns" id="countdowns"></div>
     <div class="copybox">
       <p id="copyText"></p>
       <button class="btn" id="copyBtn">Copy for the group chat</button>
@@ -218,8 +274,18 @@ footer a{color:var(--green)}
       <span><i style="background:var(--closed)"></i>No school</span>
       <span><i style="background:var(--special)"></i>Special schedule</span>
       <span>PE = PE uniform</span>
+      <span><i class="evdot"></i>School event</span>
     </div>
     <p style="font-size:.85rem;color:var(--muted)">Tap any date to see that day's schedule.</p>
+  </section>
+
+  <section id="view-kid" hidden>
+    <div class="kid" id="kidView"></div>
+    <div class="kidnav">
+      <button class="nav pill" id="kPrev" aria-label="Previous school day">‹</button>
+      <button class="nav pill" id="kNext" aria-label="Next school day">›</button>
+    </div>
+    <p class="lede" style="text-align:center">Tap a picture to hear it.</p>
   </section>
 
   <section id="view-words" hidden>
@@ -251,19 +317,23 @@ footer a{color:var(--green)}
       <li><strong>Weekends and no-school days don't count.</strong> The rotation picks up where it left off on the next school day.</li>
       <li><strong>LAB days aren't counted in the 1–8 rotation,</strong> but the teachers can run one as a specific day. Example: Tue Sep 15 was Day 2. Wed Sep 16 was a LAB day run as Day 1, to make up for the half-day first day. Thu Sep 17 is Day 3.</li>
       <li><strong>Watch the Friday Seesaw newsletter.</strong> Its "Days" box lists the coming week, including which schedule a LAB day follows.</li>
-      <li><strong>PE uniform is worn on Days 1, 5, and 6.</strong> The teachers confirmed this, and it matches the days PE is on the schedule.</li>
+      <li><strong>PE uniform is worn on Days 1 and 6.</strong> The teachers confirmed this with the updated schedule they sent on Oct 22, 2026. Day 5 no longer has PE.</li>
+      <li><strong>Library books go back on Days 2 and 4.</strong> Those are the two library days on the updated schedule.</li>
       <li><strong>Day 1 was the first day of school,</strong> Tue Sep 1 (half day, 12:45 dismissal).</li>
     </ul>
     <p>The other LAB days this year are Oct 7, Oct 28, Nov 18, Dec 16, Jan 27, Feb 24, and Apr 28. This app will say which day each one follows once the teachers announce it.</p>
 
     <h3>Worth confirming with the teachers</h3>
     <p>This app copies the day numbers printed on the school's draft calendar (dated 6/17/2026). A few spots on that draft don't follow the pattern above:</p>
-    <div class="flag"><strong>Oct 26 is printed as Day 2.</strong>Oct 21 is Day 8, and Oct 22–23 are conference days, so you'd expect Oct 26 to be Day 1.</div>
     <div class="flag"><strong>Apr 26 is printed as Day 7.</strong>Apr 21 is Day 4, and Apr 22–23 are conference days, so you'd expect Day 5.</div>
     <div class="flag"><strong>Mar 17–19 have no day numbers, and Apr 5 is printed as Day 8.</strong>Mar 16 is Day 5, so you'd expect Apr 5 to be Day 6. That suggests Days 6 and 7 happen during the musical days. Also, the calendar key says "March 18–20," but the shaded dates are the 17th through 19th.</div>
     <div class="flag"><strong>Dec 18 and Jun 4 have no day numbers.</strong>Dec 18 is a half day, and Jun 4 is the last day of school.</div>
     <div class="flag"><strong>Apr 9 (Day 4) is shaded gray</strong> on the printout, and the key doesn't say what gray means.</div>
     <div class="flag"><strong>Lunch time.</strong>The schedule sheet's time labels are slightly out of line. This app shows lunch at 11:00–11:25.</div>
+    <h3 id="calHelp">Put it in your phone's calendar</h3>
+    <p>Subscribe once, and every day number, PE day, LAB day, and school event shows up in your own calendar. When the app is updated, your calendar updates too, though phones can take several hours to refresh.</p>
+    <p><a class="btn" href="webcal://delvinamorrow23.github.io/EllisFlamingo/flamingos.ics">Subscribe on this phone</a></p>
+    <p style="font-size:.9rem;color:var(--muted)">On a computer, add this address as a calendar subscription (in Google Calendar, use "From URL"): https://delvinamorrow23.github.io/EllisFlamingo/flamingos.ics</p>
     <p><button class="pill" id="openAdmin">Update the app</button></p>
   </section>
 
@@ -296,7 +366,7 @@ footer a{color:var(--green)}
   </section>
 
   <footer>
-    Built by a Flamingo parent from the school's draft 2026–27 Lower School day calendar (6/17/2026), the Flamingos schedule sheet, and teacher emails. It is not an official Ellis tool. MyEllis, Seesaw, and Ms. Shade and Ms. Palma are the final word. Email both teachers with questions, and copy the Lower School office on arrival or dismissal changes. Their addresses are in the Flamingo welcome email. The check and X buttons send only the date and what the app showed, so mistakes can be fixed. No names, no accounts, no tracking of individual families.
+    Built by a Flamingo parent from the school's draft 2026–27 Lower School day calendar (6/17/2026), the Flamingos schedule sheet (updated October 2026), and teacher emails. It is not an official Ellis tool. MyEllis, Seesaw, and Ms. Shade and Ms. Palma are the final word. Email both teachers with questions, and copy the Lower School office on arrival or dismissal changes. Their addresses are in the Flamingo welcome email. The check and X buttons send only the date and what the app showed, so mistakes can be fixed. No names, no accounts, no tracking of individual families.
   </footer>
 </div>
 
@@ -325,11 +395,35 @@ footer a{color:var(--green)}
   put("2027-06","1:7,2:8,3:1,4:S|Last day of school");
   const NOTES = {
     "2026-09-01":"First day of school. Half day with 12:45 dismissal. The rest of Day 1 was made up on Wed Sep 16 (LAB day).",
-    "2026-10-26":"The draft calendar prints Day 2 here. The pattern suggests Day 1, so check with the teachers.",
     "2026-12-16":"The winter party is on Friday, Dec 18.",
     "2027-04-09":"This date is shaded gray on the printed calendar, and the key doesn't explain it.",
     "2027-04-26":"The draft calendar prints Day 7 here. The pattern suggests Day 5, so check with the teachers."
   };
+
+  // ===================================================================
+  //  EVENTS — school happenings, from the Lower School newsletter.
+  //  One date can hold several. "wear" replaces the uniform line that day.
+  // ===================================================================
+  const EVENTS = {
+    "2026-09-28":[{kid:"📁", what:"Green folders back to school", more:"Empty your child's green folder over the weekend and send it back Monday.", pack:["Emptied green folder"]},
+                  {kid:"🚒", what:"Fire drill at 10 a.m.", more:"Moved from Sep 22 because of weather. A heads-up at breakfast can help if loud noises bother your Flamingo."},
+                  {adult:1, what:"Strategic plan family forum, 6–7 p.m.", more:"Register through the Lower School newsletter."}],
+    "2026-09-29":[{adult:1, what:"Strategic plan family forum, 9–10 a.m.", more:"Second time option. Register through the Lower School newsletter."},
+                  {adult:1, what:"Parent webinar, 7:30–8:30 p.m.", more:"School Readiness: Executive Function Needed to “Do School” with Sarah Ward. Free for Ellis families."}],
+    "2026-09-30":[{what:"Picture Day", more:"M&M Photography, 8 a.m. to 3 p.m. No cost. Photos can be ordered online afterward.", wear:"Non-uniform clothes (usual guidelines) for Picture Day", kid:"📸"},
+                  {adult:1, what:"Paw Shop open, 7:45–10 a.m."}],
+    "2026-10-01":[{what:"Green Out", more:"Students are encouraged to wear green or an Ellis team jersey.", pack:["Something green, if you like"], kid:"💚"},
+                  {adult:1, what:"Varsity Senior Night", more:"Home games at 3:30, 5, and 7 p.m., with a tailgate cookout."}],
+    "2026-10-09":[{what:"Pizza lunch day", more:"Alumnae Hall is closed. The school provides pizza for K–4, or pack a lunch. Send a simple, low-sugar snack.", pack:["Simple, low-sugar snack","Packed lunch, only if skipping the pizza"], kid:"🍕"},
+                  {kid:"🎪", what:"Fall Festival", more:"Ellis Family Association. Games, bounce houses, and food. Volunteer sign-up is in the Lower School newsletter."}],
+    "2026-10-13":[{kid:"💗", pack:["Pink and denim, if you like"], what:"Pink and Denim Day", more:"Wear pink and denim. Optional donations support the Breast Cancer Research Foundation. Field hockey Pink Out games at 3:30 and 5 p.m."}],
+    "2026-10-15":[{kid:"🥞", what:"Pre-K and K family breakfast", more:"7:30–8:10 a.m. breakfast with your child, then 8:10–9 a.m. parent session with Dr. Schiff and the Wellness Team."},
+                  {kid:"🦕", what:"Field trip to Carnegie Museum", more:"See the teachers' email for details."}],
+    "2026-10-28":[{kid:"🧩", what:"Club day", more:"LAB day. Students can dress for their club, and they stay in the same club until January.", wear:"Clothes for her club (LAB day)"}],
+    "2026-10-30":[{kid:"🎃", what:"Halloween parade and party", more:"Costume and dress-down day. Students wear costumes to school and change into regular clothes after the parade.", wear:"Halloween costume (dress-down day)", pack:["Regular clothes to change into after the parade"]}]
+  };
+  const ev = k => EVENTS[k] || [];
+  const wearFor = k => { const e = ev(k).find(x=>x.wear); return e ? e.wear : null; };
 
   // ===================================================================
   //  FEEDBACK — paste your Google Form values here to turn on the
@@ -349,11 +443,23 @@ footer a{color:var(--green)}
   // ===================================================================
   const RED_WORDS = [
     {w:"the", week:"Sep 14"},
-    {w:"was", week:"Sep 21"}
+    {w:"was", week:"Sep 21"},
+    {w:"is", week:"Sep 28"},
+    {w:"a", week:"Sep 28"},
+    {w:"on", week:"Oct 5"},
+    {w:"and", week:"Oct 12"},
+    {w:"to", week:"Oct 19"},
+    {w:"for", week:"Oct 26"}
   ];
   const LETTERS = [
     {l:"Mm", week:"Sep 14"},
-    {l:"Aa", week:"Sep 21"}
+    {l:"Aa", week:"Sep 21"},
+    {l:"Ll", week:"Sep 28"},
+    {l:"Oo", week:"Sep 28"},
+    {l:"Hh", week:"Oct 5"},
+    {l:"Gg", week:"Oct 12"},
+    {l:"Cc", week:"Oct 19"},
+    {l:"Dd", week:"Oct 26"}
   ];
 
   // ===================================================================
@@ -371,13 +477,13 @@ footer a{color:var(--green)}
     1:["Music","PE","Reading","Math","Humanities","FLEX"],
     2:["Assembly","Humanities","Reading","Math","Spanish","Library"],
     3:["Art","STEM","Reading","Math","Humanities","FLEX"],
-    4:["Reading","FLEX","Humanities","Math","Spanish","Library"],
-    5:["Math","PE","Reading","Humanities","Art","STEM"],
-    6:["Math","Wellness","Reading","Humanities","PE","Music"],
-    7:["Reading","FLEX","Humanities","Math","Spanish","Art"],
-    8:["STEM","Math","Reading","Humanities","Library","Music"]
+    4:["Reading","Math/Literacy Enrichment","Humanities","Math","Spanish","Library"],
+    5:["Math","Math/Literacy Enrichment","Reading","Humanities","Art","STEM"],
+    6:["Wellness","Math","Reading","Humanities","PE","FLEX"],
+    7:["Reading","Math/Literacy Enrichment","Humanities","Math","Spanish","FLEX"],
+    8:["STEM","Math","Reading","Humanities","FLEX","Music"]
   };
-  const CORE = ["Reading","Math","Humanities","FLEX"];
+  const CORE = ["Reading","Math","Humanities","FLEX","Math/Literacy Enrichment"];
   const SLOTS = [
     ["8:00–8:30","Morning meeting"],["8:30–9:10",0],["9:10–9:50",1],["9:50–10:05","Snack"],
     ["10:05–10:45",2],["10:45–11:00","Homeroom"],["11:00–11:25","Lunch"],["11:30–12:00","Recess"],
@@ -432,6 +538,9 @@ footer a{color:var(--green)}
   // ---------- State ----------
   const today = new Date(); today.setHours(0,0,0,0);
   let cur = new Date(today);
+  const EVENING = new Date().getHours() >= 15;
+  const NEXT_UP = nextSchool(today,1);
+  if (EVENING && NEXT_UP) cur = new Date(NEXT_UP);
   if (cur < FIRST) cur = new Date(FIRST);
   if (cur > LAST) cur = new Date(LAST);
   let monthCursor = new Date(cur.getFullYear(), cur.getMonth(), 1);
@@ -439,6 +548,16 @@ footer a{color:var(--green)}
   const $ = id => document.getElementById(id);
   const esc = s => String(s).replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
   const shirt = '<svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M8 3l-5 3 2 4 3-1v12h8V9l3 1 2-4-5-3c-.5 1.5-2 2.5-4 2.5S8.5 4.5 8 3z"/></svg>';
+
+  function uniformHTML(k,pe){
+    const w = wearFor(k);
+    if (w) return `<div class="uniform wear">${shirt}${esc(w)}</div>`;
+    return `<div class="uniform ${pe?"pe":""}">${shirt}${pe?"Wear the PE uniform":"Regular uniform"}</div>`;
+  }
+  function eventsHTML(k){
+    const list = ev(k); if (!list.length) return "";
+    return `<div class="events"><h3>Happening this day</h3><ul>${list.map(e=>`<li><strong>${esc(e.what)}</strong>${e.more?`<span>${esc(e.more)}</span>`:""}</li>`).join("")}</ul></div>`;
+  }
 
   function heroHTML(k){
     const t = info(k), d = fromKey(k);
@@ -450,7 +569,7 @@ footer a{color:var(--green)}
         <h2>${pe?"PE day":"Regular day"}</h2>
         <div><p>Specials today</p><div class="chips">${specials(t.n).map(s=>`<span class="chip">${esc(s)}</span>`).join("")}</div></div>
         <div class="full">${t.note?`<p>${esc(t.note)}</p>`:""}${t.local?`<p class="preview">Preview on this phone only. Paste the line into GitHub to share it.</p>`:""}
-        <div class="uniform ${pe?"pe":""}">${shirt}${pe?"Wear the PE uniform":"Regular uniform"}</div></div></div>`;
+        ${uniformHTML(k,pe)}</div></div>`;
     }
     if (t.type==="lab" && t.as){
       const n = t.as.n, pe = isPE(n);
@@ -458,7 +577,7 @@ footer a{color:var(--green)}
         <h2>LAB day, run as Day ${n}</h2>
         <div><p>Specials</p><div class="chips">${specials(n).map(s=>`<span class="chip">${esc(s)}</span>`).join("")}</div></div>
         <div class="full"><p>${esc(t.as.why)} It isn't counted in the 1–8 rotation.</p><p>${esc(nextLine)}</p>
-        <div class="uniform ${pe?"pe":""}">${shirt}${pe?"Wear the PE uniform":"Regular uniform"}</div></div></div>`;
+        ${uniformHTML(k,pe)}</div></div>`;
     }
     if (t.type==="lab"){
       return `<div class="hero lab"><div class="disc word"><span class="n">LAB</span></div>
@@ -508,14 +627,21 @@ footer a{color:var(--green)}
     return out.map(d=>{ const kk=key(d), t=info(kk);
       const v = t.type==="day" ? t.n : t.type==="lab" ? "LAB" : t.type==="special" ? "★" : "Off";
       const rn = t.type==="day" ? t.n : (t.type==="lab" && t.as ? t.as.n : 0);
-      const note = rn && isPE(rn) ? "PE" : (t.type==="closed" ? "no school" : "");
+      const note = (rn && isPE(rn) ? "PE" : (t.type==="closed" ? "no school" : "")) + (ev(kk).length ? " •" : "");
       const cls = t.type==="closed" ? " class=\"off\"" : "";
-      const why = t.type==="closed" ? ", "+t.text : "";
+      const why = (t.type==="closed" ? ", "+t.text : "") + (ev(kk).length ? ", "+ev(kk).map(e=>e.what).join(", ") : "");
       return `<button${cls} data-k="${kk}" aria-label="${fmt(d,{weekday:"long",month:"long",day:"numeric"})}${esc(why)}"><span class="wd">${fmt(d,{weekday:"short"})} ${d.getDate()}</span><span class="v">${v}</span><span class="pe">${note}</span></button>`;
     }).join("") || `<p>No more school days this year.</p>`;
   }
 
   function copyLine(k){
+    const base = copyBase(k); const n = nextSchool(fromKey(k),1); if(!n) return base;
+    const list = ev(key(n)); let out = base;
+    const w = wearFor(key(n)); if (w) out = out.replace(/(PE uniform|Regular uniform)\. /, w + ". ");
+    if (list.length) out += " Also: " + list.map(e=>e.what).join("; ") + ".";
+    return out;
+  }
+  function copyBase(k){
     const d = fromKey(k); let n = nextSchool(d,1); if(!n) return "No more school days this year.";
     const t = info(key(n)); const when = fmt(n,{weekday:"long",month:"short",day:"numeric"});
     if (t.type==="day") return `Flamingos: ${when} is Day ${t.n}. ${isPE(t.n)?"PE uniform. ":"Regular uniform. "}Specials: ${specials(t.n).join(", ")}.`;
@@ -581,9 +707,17 @@ footer a{color:var(--green)}
   function renderToday(){
     const k = key(cur);
     const isT = key(today)===k;
-    $("dateLabel").innerHTML = `${fmt(cur,{weekday:"long",month:"short",day:"numeric"})}<span>${isT?"Today":fmt(cur,{year:"numeric"})}</span>`;
+    const isTom = key(addDays(today,1))===k;
+    const isNext = NEXT_UP && key(NEXT_UP)===k;
+    const tag = isT ? "Today" : isTom ? "Tomorrow" : isNext ? "Next school day" : fmt(cur,{year:"numeric"});
+    $("dateLabel").innerHTML = `${fmt(cur,{weekday:"long",month:"short",day:"numeric"})}<span>${tag}</span>`;
+    $("eveningNote").hidden = !(EVENING && isNext && !isT);
     $("picker").value = k;
     $("hero").innerHTML = heroHTML(k);
+    $("events").innerHTML = eventsHTML(k);
+    $("pack").innerHTML = packHTML(k);
+    $("countdowns").innerHTML = countdownHTML();
+    $("party").innerHTML = partyHTML(k);
     $("dayDetail").innerHTML = detailHTML(k);
     $("feedback").innerHTML = feedbackHTML(k);
     $("upnext").innerHTML = upnextHTML(k);
@@ -608,6 +742,7 @@ footer a{color:var(--green)}
       else if (t.type==="closed"){ cls="is-closed"; v="Off"; title=t.text; }
       else if (t.type==="special"){ cls="is-special"; v="★"; }
       if (k===key(today)) cls+=" is-today";
+      if (ev(k).length){ cls+=" has-ev"; title = (title?title+". ":"") + ev(k).map(e=>e.what).join(", "); }
       html += `<button class="${cls}" title="${esc(title)}" data-k="${k}" aria-label="${fmt(dt,{weekday:"long",month:"long",day:"numeric"})}${title?", "+esc(title):""}"><span class="dn">${d}</span><span class="dv">${v}</span></button>`;
     }
     $("cal").innerHTML = html;
@@ -631,8 +766,9 @@ footer a{color:var(--green)}
   // ---------- Events ----------
   function show(view){
     document.querySelectorAll(".tabs button").forEach(b=>b.setAttribute("aria-selected", b.dataset.view===view));
-    ["today","month","words","grid","how","admin"].forEach(v=>$("view-"+v).hidden = v!==view);
+    ["today","kid","month","words","grid","how","admin"].forEach(v=>$("view-"+v).hidden = v!==view);
     if (view==="words") renderWords();
+    if (view==="kid") renderKid();
     document.querySelectorAll(".tabs button").forEach(b=>{ if(view==="admin") b.setAttribute("aria-selected","false"); });
     if (view==="month") renderMonth();
     try { sessionStorage.setItem("ff-view", view); } catch(e){}
@@ -640,7 +776,7 @@ footer a{color:var(--green)}
   document.querySelectorAll(".tabs button").forEach(b=>b.addEventListener("click",()=>show(b.dataset.view)));
   $("prev").addEventListener("click",()=>{ const x=nextSchool(cur,-1); if(x){cur=x;renderToday();} });
   $("next").addEventListener("click",()=>{ const x=nextSchool(cur,1); if(x){cur=x;renderToday();} });
-  $("goToday").addEventListener("click",()=>{ cur=new Date(today); if(cur<FIRST)cur=new Date(FIRST); if(cur>LAST)cur=new Date(LAST); renderToday(); });
+  $("goToday").addEventListener("click",()=>{ cur=new Date(today); if(!isSchoolDay(key(cur))){ const x=nextSchool(today,1); if(x) cur=x; } if(cur<FIRST)cur=new Date(FIRST); if(cur>LAST)cur=new Date(LAST); renderToday(); });
   $("picker").addEventListener("change",e=>{ if(e.target.value){ cur=fromKey(e.target.value); renderToday(); }});
   $("upnext").addEventListener("click",e=>{ const b=e.target.closest("button[data-k]"); if(b){ cur=fromKey(b.dataset.k); renderToday(); window.scrollTo({top:0}); }});
   $("cal").addEventListener("click",e=>{ const b=e.target.closest("button[data-k]"); if(b){ cur=fromKey(b.dataset.k); renderToday(); show("today"); window.scrollTo({top:0}); }});
@@ -652,6 +788,146 @@ footer a{color:var(--green)}
     catch(e){ const r=document.createRange(); r.selectNodeContents($("copyText")); const s=getSelection(); s.removeAllRanges(); s.addRange(r); $("copyBtn").textContent="Text selected, tap Copy"; }
     setTimeout(()=>{$("copyBtn").textContent="Copy for the group chat";},2500);
   });
+
+  // ---------- Packing list for the night before ----------
+  let PACKED = {};
+  try { PACKED = JSON.parse(localStorage.getItem("ff-packed") || "{}"); } catch(e){ PACKED = {}; }
+  function firstOfWeek(k){ // first school day of the week: green folders go back
+    const d = fromKey(k);
+    for (let x = addDays(d,-1); x.getDay()>=1 && x.getDay()<=5; x = addDays(x,-1)) if (isSchoolDay(key(x))) return false;
+    return true;
+  }
+  function packItems(k){
+    const t = info(k); const items = [];
+    const n = t.type==="day" ? t.n : (t.type==="lab" && t.as ? t.as.n : null);
+    const w = wearFor(k);
+    if (w) items.push(w);
+    else if (n) items.push(isPE(n) ? "PE uniform and sneakers" : "Regular uniform");
+    if (t.type==="lab" && !t.as && !w) items.push("Check Seesaw for which schedule this LAB day follows");
+    if (firstOfWeek(k)) items.push("Emptied green folder");
+    if (n && ROT[n].includes("Library")) items.push("Library day: return library books");
+    ev(k).forEach(e => (e.pack||[]).forEach(x => { if (!items.includes(x)) items.push(x); }));
+    return items;
+  }
+  function packHTML(k){
+    if (!isSchoolDay(k)) return "";
+    const items = packItems(k); if (!items.length) return "";
+    const done = PACKED[k] || [];
+    const day = fmt(fromKey(k),{weekday:"long"});
+    return `<div class="packbox"><h3>Ready for ${esc(day)}?</h3><ul>${items.map((x,i)=>`<li><label><input type="checkbox" data-pk="${k}" data-i="${i}" ${done.includes(i)?"checked":""}> <span>${esc(x)}</span></label></li>`).join("")}</ul></div>`;
+  }
+  document.addEventListener("change", e => {
+    const c = e.target.closest("input[data-pk]"); if (!c) return;
+    const k = c.dataset.pk, i = Number(c.dataset.i);
+    const set = new Set(PACKED[k] || []); c.checked ? set.add(i) : set.delete(i);
+    PACKED[k] = [...set];
+    try { localStorage.setItem("ff-packed", JSON.stringify(PACKED)); } catch(err){}
+  });
+
+  // ---------- Countdowns (always from the real today) ----------
+  function countdownHTML(){
+    const out = [];
+    const ks = Object.keys(EVENTS).filter(k => k > key(today)).sort();
+    ks.slice(0,2).forEach(k => {
+      const d = fromKey(k), n = Math.round((d - today)/86400000);
+      out.push(`<button data-k="${k}"><strong>${esc(EVENTS[k][0].what)}</strong><span>${n===1?"tomorrow":"in "+n+" days"}</span></button>`);
+    });
+    for (let x = addDays(today,1), g=0; g<300 && x<=LAST; g++, x=addDays(x,1)){
+      const k = key(x), t = info(k);
+      if (t.type==="closed" && x.getDay()!==0 && x.getDay()!==6){
+        const n = Math.round((x - today)/86400000);
+        out.push(`<button data-k="${k}" class="off"><strong>Next day off: ${esc(t.text)}</strong><span>${fmt(x,{weekday:"short",month:"short",day:"numeric"})}, in ${n} day${n===1?"":"s"}</span></button>`);
+        break;
+      }
+    }
+    return out.join("");
+  }
+
+  // ---------- Celebrations ----------
+  const SCHOOL_DAYS = (() => { const a=[]; for (let x=new Date(FIRST); x<=LAST; x=addDays(x,1)){ const k=key(x); if (isSchoolDay(k)) a.push(k); } return a; })();
+  const DAY_100 = SCHOOL_DAYS[99];
+  function celebration(k){
+    if (k === DAY_100) return "Happy 100th day of school, Flamingos!";
+    if (k === key(LAST)) return "Last day of kindergarten! What a year, Flamingos.";
+    if (!isSchoolDay(k)) return null;
+    const nx = nextSchool(fromKey(k),1);
+    if (nx && (nx - fromKey(k))/86400000 >= 5) return "Last day before the break. Rest up, Flamingos!";
+    return null;
+  }
+  function partyHTML(k){
+    const msg = celebration(k); if (!msg) return "";
+    const birds = Array.from({length:7},(_,i)=>`<span style="--i:${i}">🦩</span>`).join("");
+    return `<div class="party"><div class="parade" aria-hidden="true">${birds}</div><p>${esc(msg)}</p></div>`;
+  }
+
+  // ---------- Kid view ----------
+  const KID_ICON = {Music:"🎵", PE:"⚽", Art:"🎨", STEM:"🔬", Spanish:"🗣️", Library:"📚", Wellness:"💛", Assembly:"🎤"};
+  const KID_SAY = {Music:"Music", PE:"P E, gym time", Art:"Art", STEM:"Stem, building and science", Spanish:"Spanish. Hola!", Library:"Library", Wellness:"Wellness", Assembly:"Assembly"};
+  function renderKid(){
+    const k = key(cur), t = info(k), d = cur;
+    const n = t.type==="day" ? t.n : (t.type==="lab" && t.as ? t.as.n : null);
+    const when = key(today)===k ? "Today" : key(addDays(today,1))===k ? "Tomorrow" : fmt(d,{weekday:"long"});
+    let h;
+    if (t.type==="closed" || t.type==="weekend"){
+      h = `<div class="kbird">🦩</div><h2>${when} is a stay-home day!</h2><p class="ksub">No school. 🏡</p>`;
+    } else if (!n){
+      const evs = ev(k).filter(e=>!e.adult).map(e=>`<button class="kcard ev" data-say="${esc(e.what)}"><span class="ki">${e.kid||"🎉"}</span><span>${esc(e.what)}</span></button>`).join("");
+      const w = wearFor(k);
+      h = `<div class="kbird">🦩</div><h2>${when} is a special day!</h2><p class="ksub">${t.type==="lab"?"It's a LAB day.":esc(t.text||"")}</p>`
+        + (evs ? `<div class="kcards" style="margin-top:14px">${evs}</div>` : "")
+        + (w ? `<button class="kwear" data-say="${esc(w)}"><span class="ki">✨</span>Special clothes today</button>` : "");
+    } else {
+      const pe = isPE(n);
+      const cards = specials(n).map(s=>`<button class="kcard" data-say="${esc(KID_SAY[s]||s)}"><span class="ki">${KID_ICON[s]||"⭐"}</span><span>${esc(s)}</span></button>`).join("");
+      const evs = ev(k).filter(e=>!e.adult).map(e=>`<button class="kcard ev" data-say="${esc(e.what)}"><span class="ki">${e.kid||"🎉"}</span><span>${esc(e.what)}</span></button>`).join("");
+      const w = wearFor(k);
+      h = `<div class="kbird ${pe?"dance":""}">🦩</div><h2>${when} is Day ${n}!</h2>
+        <div class="kcards">${cards}${evs}</div>
+        <button class="kwear ${pe?"pe":""}" data-say="${esc(w || (pe?"Wear your P E uniform and sneakers!":"Wear your regular uniform."))}"><span class="ki">${w?"✨":pe?"👟":"👕"}</span>${esc(w?"Special clothes today":(pe?"PE uniform and sneakers":"Regular uniform"))}</button>`;
+    }
+    $("kidView").innerHTML = h;
+    $("kPrev").disabled = !nextSchool(cur,-1); $("kNext").disabled = !nextSchool(cur,1);
+  }
+  $("kidView").addEventListener("click", e => {
+    const b = e.target.closest("[data-say]"); if (!b) return;
+    b.classList.remove("tap"); void b.offsetWidth; b.classList.add("tap");
+    speak([b.dataset.say]);
+  });
+  $("kPrev").addEventListener("click",()=>{ const x=nextSchool(cur,-1); if(x){cur=x;renderToday();renderKid();} });
+  $("kNext").addEventListener("click",()=>{ const x=nextSchool(cur,1); if(x){cur=x;renderToday();renderKid();} });
+  $("countdowns").addEventListener("click",e=>{ const b=e.target.closest("button[data-k]"); if(b){ cur=fromKey(b.dataset.k); renderToday(); window.scrollTo({top:0}); }});
+
+  // ---------- Seasonal accent ----------
+  $("season").textContent = ["⛄","💗","🌱","🌷","🌼","☀️","☀️","🍎","🍎","🍂","🍁","❄️"][today.getMonth()];
+
+  // ---------- Calendar file (the same data as the app) ----------
+  function buildICS(){
+    const escI = x => String(x).replace(/\\/g,"\\\\").replace(/;/g,"\\;").replace(/,/g,"\\,").replace(/\n/g,"\\n");
+    const fold = line => { const out=[]; let l=line; while (new TextEncoder().encode(l).length > 73){ let cut=73; while (new TextEncoder().encode(l.slice(0,cut)).length>73) cut--; out.push(l.slice(0,cut)); l=" "+l.slice(cut); } out.push(l); return out.join("\r\n"); };
+    const ymd = k => k.replace(/-/g,"");
+    const stamp = "20261022T000000Z";
+    const L = ["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Flamingos Day Finder//EN","CALSCALE:GREGORIAN","METHOD:PUBLISH",
+      "X-WR-CALNAME:Flamingos Day Finder","X-WR-CALDESC:Ellis kindergarten (Flamingos) rotation days\\, PE days\\, and school events. Parent-made\\, not an official Ellis calendar.",
+      "REFRESH-INTERVAL;VALUE=DURATION:PT12H","X-PUBLISHED-TTL:PT12H"];
+    const add = (k, uid, summary, desc) => {
+      L.push("BEGIN:VEVENT", "UID:"+uid+"@flamingos-day-finder", "DTSTAMP:"+stamp,
+        "DTSTART;VALUE=DATE:"+ymd(k), "DTEND;VALUE=DATE:"+ymd(key(addDays(fromKey(k),1))),
+        "SUMMARY:"+escI("🦩 "+summary), "TRANSP:TRANSPARENT");
+      if (desc) L.push("DESCRIPTION:"+escI(desc));
+      L.push("END:VEVENT");
+    };
+    for (let x=new Date(FIRST); x<=LAST; x=addDays(x,1)){
+      const k = key(x), t = info(k);
+      if (t.type==="day") add(k, "day-"+k, `Day ${t.n}${isPE(t.n)?" (PE uniform)":""}`, "Specials: "+specials(t.n).join(", ")+"."+(t.note?" "+t.note:""));
+      else if (t.type==="lab") add(k, "day-"+k, t.as?`LAB day, run as Day ${t.as.n}${isPE(t.as.n)?" (PE uniform)":""}`:"LAB day", t.as?t.as.why:"Check Seesaw for which day's schedule it follows.");
+      else if (t.type==="closed") add(k, "day-"+k, "No school: "+t.text, t.note||"");
+      else if (t.type==="special") add(k, "day-"+k, t.text, "");
+      ev(k).forEach((e,i)=> add(k, `ev-${k}-${i}`, e.what, e.more||""));
+    }
+    L.push("END:VCALENDAR");
+    return L.map(fold).join("\r\n")+"\r\n";
+  }
+  window.__buildICS = buildICS;
 
   // ---------- Red Words ----------
   let wi = RED_WORDS.length - 1;               // start on the newest word
