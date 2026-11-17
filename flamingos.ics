@@ -585,6 +585,16 @@ TRANSP:TRANSPARENT
 DESCRIPTION:Specials: Spanish.
 END:VEVENT
 BEGIN:VEVENT
+UID:ev-2026-11-03-0@flamingos-day-finder
+DTSTAMP:20261022T000000Z
+DTSTART;VALUE=DATE:20261103
+DTEND;VALUE=DATE:20261104
+SUMMARY:🦩 Green Out dress-down day
+TRANSP:TRANSPARENT
+DESCRIPTION:For the varsity field hockey WPIAL championship game. Wear no
+ n-uniform green or an Ellis jersey\, or the regular uniform.
+END:VEVENT
+BEGIN:VEVENT
 UID:day-2026-11-04@flamingos-day-finder
 DTSTAMP:20261022T000000Z
 DTSTART;VALUE=DATE:20261104
@@ -592,6 +602,16 @@ DTEND;VALUE=DATE:20261105
 SUMMARY:🦩 Day 8
 TRANSP:TRANSPARENT
 DESCRIPTION:Specials: STEM\, Music.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-11-04-0@flamingos-day-finder
+DTSTAMP:20261022T000000Z
+DTSTART;VALUE=DATE:20261104
+DTEND;VALUE=DATE:20261105
+SUMMARY:🦩 Field trip to Garfield Community Farm
+TRANSP:TRANSPARENT
+DESCRIPTION:Afternoon trip with Ms. DeLucia's STEM class. Lunch is at sch
+ ool\, and drop-off\, pickup\, and EDP stay the same.
 END:VEVENT
 BEGIN:VEVENT
 UID:day-2026-11-05@flamingos-day-finder
@@ -647,6 +667,17 @@ TRANSP:TRANSPARENT
 DESCRIPTION:Specials: Art\, STEM.
 END:VEVENT
 BEGIN:VEVENT
+UID:ev-2026-11-12-0@flamingos-day-finder
+DTSTAMP:20261022T000000Z
+DTSTART;VALUE=DATE:20261112
+DTEND;VALUE=DATE:20261113
+SUMMARY:🦩 STEAM Day
+TRANSP:TRANSPARENT
+DESCRIPTION:Hands-on science\, tech\, engineering\, art\, and math activi
+ ties in the Courtyard\, 10:30 a.m. to 2 p.m.\, with volunteers from the 
+ Society of Women Engineers.
+END:VEVENT
+BEGIN:VEVENT
 UID:day-2026-11-13@flamingos-day-finder
 DTSTAMP:20261022T000000Z
 DTSTART;VALUE=DATE:20261113
@@ -654,6 +685,34 @@ DTEND;VALUE=DATE:20261114
 SUMMARY:🦩 Day 6 (PE uniform)
 TRANSP:TRANSPARENT
 DESCRIPTION:Specials: Wellness\, PE.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-11-13-0@flamingos-day-finder
+DTSTAMP:20261022T000000Z
+DTSTART;VALUE=DATE:20261113
+DTEND;VALUE=DATE:20261114
+SUMMARY:🦩 First decodable book comes home
+TRANSP:TRANSPARENT
+DESCRIPTION:From Ms. Hieber. Read it together 2 or 3 times this weekend u
+ sing “I read\, you read\,” sign it\, and send it back Monday.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-11-13-1@flamingos-day-finder
+DTSTAMP:20261022T000000Z
+DTSTART;VALUE=DATE:20261113
+DTEND;VALUE=DATE:20261114
+SUMMARY:🦩 Cocoa and Community (8–9:30 a.m.)
+TRANSP:TRANSPARENT
+DESCRIPTION:Hot chocolate with Dr. Schiff in the Tiger Den\, for families
+  with younger siblings.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-11-13-2@flamingos-day-finder
+DTSTAMP:20261022T000000Z
+DTSTART;VALUE=DATE:20261113
+DTEND;VALUE=DATE:20261114
+SUMMARY:🦩 Last day to register for GrandFriends Day
+TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:day-2026-11-16@flamingos-day-finder
@@ -665,6 +724,16 @@ TRANSP:TRANSPARENT
 DESCRIPTION:Specials: Spanish.
 END:VEVENT
 BEGIN:VEVENT
+UID:ev-2026-11-16-0@flamingos-day-finder
+DTSTAMP:20261022T000000Z
+DTSTART;VALUE=DATE:20261116
+DTEND;VALUE=DATE:20261117
+SUMMARY:🦩 Decodable book back to school
+TRANSP:TRANSPARENT
+DESCRIPTION:Send back the signed decodable book. It comes home again afte
+ rward for more practice.
+END:VEVENT
+BEGIN:VEVENT
 UID:day-2026-11-17@flamingos-day-finder
 DTSTAMP:20261022T000000Z
 DTSTART;VALUE=DATE:20261117
@@ -672,6 +741,18 @@ DTEND;VALUE=DATE:20261118
 SUMMARY:🦩 Day 8
 TRANSP:TRANSPARENT
 DESCRIPTION:Specials: STEM\, Music.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-11-17-0@flamingos-day-finder
+DTSTAMP:20261022T000000Z
+DTSTART;VALUE=DATE:20261117
+DTEND;VALUE=DATE:20261118
+SUMMARY:🦩 K-Team Thanksgiving feast
+TRANSP:TRANSPARENT
+DESCRIPTION:Celebrates the end of the Wants and Needs unit. The girls vot
+ ed on the menu: chocolate milk\, apple juice\, grapes\, apples\, spaghet
+ ti\, pizza\, ice cream\, and donuts. Dress up or dress down\, anything 
+ “fit for a feast.” Sneakers are required.
 END:VEVENT
 BEGIN:VEVENT
 UID:day-2026-11-18@flamingos-day-finder
@@ -683,6 +764,34 @@ TRANSP:TRANSPARENT
 DESCRIPTION:Check Seesaw for which day's schedule it follows.
 END:VEVENT
 BEGIN:VEVENT
+UID:ev-2026-11-18-0@flamingos-day-finder
+DTSTAMP:20261022T000000Z
+DTSTART;VALUE=DATE:20261118
+DTEND;VALUE=DATE:20261119
+SUMMARY:🦩 Author Grace Lin visits
+TRANSP:TRANSPARENT
+DESCRIPTION:Afternoon Lower School assembly with a reading and presentati
+ on by Grace Lin. If your Flamingo owns one of her books\, she can bring 
+ it to get it signed.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-11-18-1@flamingos-day-finder
+DTSTAMP:20261022T000000Z
+DTSTART;VALUE=DATE:20261118
+DTEND;VALUE=DATE:20261119
+SUMMARY:🦩 Paw Shop open\, 7:45–10 a.m.
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-11-18-2@flamingos-day-finder
+DTSTAMP:20261022T000000Z
+DTSTART;VALUE=DATE:20261118
+DTEND;VALUE=DATE:20261119
+SUMMARY:🦩 Matilda Jr. musical (7 p.m.)
+TRANSP:TRANSPARENT
+DESCRIPTION:Ellis musical. Suggested donation $5. Also on Thursday.
+END:VEVENT
+BEGIN:VEVENT
 UID:day-2026-11-19@flamingos-day-finder
 DTSTAMP:20261022T000000Z
 DTSTART;VALUE=DATE:20261119
@@ -692,6 +801,27 @@ TRANSP:TRANSPARENT
 DESCRIPTION:Specials: Music\, PE.
 END:VEVENT
 BEGIN:VEVENT
+UID:ev-2026-11-19-0@flamingos-day-finder
+DTSTAMP:20261022T000000Z
+DTSTART;VALUE=DATE:20261119
+DTEND;VALUE=DATE:20261120
+SUMMARY:🦩 Field trip to the Pittsburgh Symphony
+TRANSP:TRANSPARENT
+DESCRIPTION:K and 1st grade go to the PSO's “Once Upon a Book” School
+ time concert\, with author and illustrator Grace Lin reading her book al
+ ongside the orchestra. Buses leave Ellis promptly at 9:15 a.m. and are e
+ xpected back around noon.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-11-19-1@flamingos-day-finder
+DTSTAMP:20261022T000000Z
+DTSTART;VALUE=DATE:20261119
+DTEND;VALUE=DATE:20261120
+SUMMARY:🦩 Matilda Jr. musical (7 p.m.)
+TRANSP:TRANSPARENT
+DESCRIPTION:Second night of the Ellis musical. Suggested donation $5.
+END:VEVENT
+BEGIN:VEVENT
 UID:day-2026-11-20@flamingos-day-finder
 DTSTAMP:20261022T000000Z
 DTSTART;VALUE=DATE:20261120
@@ -699,6 +829,28 @@ DTEND;VALUE=DATE:20261121
 SUMMARY:🦩 Day 2
 TRANSP:TRANSPARENT
 DESCRIPTION:Specials: Assembly\, Spanish\, Library.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-11-20-0@flamingos-day-finder
+DTSTAMP:20261022T000000Z
+DTSTART;VALUE=DATE:20261120
+DTEND;VALUE=DATE:20261121
+SUMMARY:🦩 GrandFriends Day
+TRANSP:TRANSPARENT
+DESCRIPTION:Grandparents and special friends visit Pre-K and K from 8 to 
+ 11 a.m. It's a full school day\, but girls may go home with their GrandF
+ riend afterward. If pickup is different from usual\, fill out the school
+ 's dismissal form and tell the teachers and Ms. Sacco.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-11-20-1@flamingos-day-finder
+DTSTAMP:20261022T000000Z
+DTSTART;VALUE=DATE:20261120
+DTEND;VALUE=DATE:20261121
+SUMMARY:🦩 GrandFriends Day dismissal form
+TRANSP:TRANSPARENT
+DESCRIPTION:Fill out the dismissal form from the Nov 13 Lower School emai
+ l if your Flamingo is leaving with her GrandFriend.
 END:VEVENT
 BEGIN:VEVENT
 UID:day-2026-11-23@flamingos-day-finder
@@ -757,6 +909,17 @@ DTEND;VALUE=DATE:20261202
 SUMMARY:🦩 Day 4
 TRANSP:TRANSPARENT
 DESCRIPTION:Specials: Spanish\, Library.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-12-01-0@flamingos-day-finder
+DTSTAMP:20261022T000000Z
+DTSTART;VALUE=DATE:20261201
+DTEND;VALUE=DATE:20261202
+SUMMARY:🦩 Parent webinar (7:30–8:30 p.m.)
+TRANSP:TRANSPARENT
+DESCRIPTION:PAIS/ISACS Parent Series: The Power of Beliefs with Shawn Ach
+ or. Free for Ellis parents\; register through the Nov 12 Lower School ne
+ wsletter.
 END:VEVENT
 BEGIN:VEVENT
 UID:day-2026-12-02@flamingos-day-finder
@@ -831,6 +994,16 @@ TRANSP:TRANSPARENT
 DESCRIPTION:Specials: Spanish\, Library.
 END:VEVENT
 BEGIN:VEVENT
+UID:ev-2026-12-11-0@flamingos-day-finder
+DTSTAMP:20261022T000000Z
+DTSTART;VALUE=DATE:20261211
+DTEND;VALUE=DATE:20261212
+SUMMARY:🦩 WPIAL Food Drive ends Dec 12
+TRANSP:TRANSPARENT
+DESCRIPTION:Last school day to drop nonperishable food in the Lower Schoo
+ l lobby. Online donations also count.
+END:VEVENT
+BEGIN:VEVENT
 UID:day-2026-12-14@flamingos-day-finder
 DTSTAMP:20261022T000000Z
 DTSTART;VALUE=DATE:20261214
@@ -847,6 +1020,16 @@ DTEND;VALUE=DATE:20261216
 SUMMARY:🦩 Day 6 (PE uniform)
 TRANSP:TRANSPARENT
 DESCRIPTION:Specials: Wellness\, PE.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-12-15-0@flamingos-day-finder
+DTSTAMP:20261022T000000Z
+DTSTART;VALUE=DATE:20261215
+DTEND;VALUE=DATE:20261216
+SUMMARY:🦩 Tuition Assistance re-enrollment due
+TRANSP:TRANSPARENT
+DESCRIPTION:For families who currently receive it. Questions go to Jenn M
+ oynihan.
 END:VEVENT
 BEGIN:VEVENT
 UID:day-2026-12-16@flamingos-day-finder
@@ -986,6 +1169,17 @@ DTEND;VALUE=DATE:20270106
 SUMMARY:🦩 Day 8
 TRANSP:TRANSPARENT
 DESCRIPTION:Specials: STEM\, Music.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-01-05-0@flamingos-day-finder
+DTSTAMP:20261022T000000Z
+DTSTART;VALUE=DATE:20270105
+DTEND;VALUE=DATE:20270106
+SUMMARY:🦩 An Evening With Carol Gilligan (6 p.m.)
+TRANSP:TRANSPARENT
+DESCRIPTION:Conversation with Dr. Gilligan\, Dr. Jacqueline Cruz\, and Dr
+ . Odell in the Auditorium. Tickets $30\, or $150 VIP with a 5 p.m. recep
+ tion.
 END:VEVENT
 BEGIN:VEVENT
 UID:day-2027-01-06@flamingos-day-finder
@@ -1138,6 +1332,16 @@ DTEND;VALUE=DATE:20270129
 SUMMARY:🦩 Day 7
 TRANSP:TRANSPARENT
 DESCRIPTION:Specials: Spanish.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-01-28-0@flamingos-day-finder
+DTSTAMP:20261022T000000Z
+DTSTART;VALUE=DATE:20270128
+DTEND;VALUE=DATE:20270129
+SUMMARY:🦩 Heritage Day
+TRANSP:TRANSPARENT
+DESCRIPTION:Students share cultural foods and traditions. Heritage Night 
+ brings families together that evening.
 END:VEVENT
 BEGIN:VEVENT
 UID:day-2027-01-29@flamingos-day-finder
