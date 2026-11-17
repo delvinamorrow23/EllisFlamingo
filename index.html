@@ -395,6 +395,7 @@ footer a{color:var(--green)}
   put("2027-06","1:7,2:8,3:1,4:S|Last day of school");
   const NOTES = {
     "2026-09-01":"First day of school. Half day with 12:45 dismissal. The rest of Day 1 was made up on Wed Sep 16 (LAB day).",
+    "2026-11-30":"The printed calendar says Day 3, but the Nov 16–20 newsletter ended that week on Day 8, so this may be Day 1. Check the teachers' Nov 30 newsletter.",
     "2026-12-16":"The winter party is on Friday, Dec 18.",
     "2027-04-09":"This date is shaded gray on the printed calendar, and the key doesn't explain it.",
     "2027-04-26":"The draft calendar prints Day 7 here. The pattern suggests Day 5, so check with the teachers."
@@ -423,7 +424,7 @@ footer a{color:var(--green)}
     "2026-11-18":[{kid:"📚", what:"Author Grace Lin visits", more:"Afternoon Lower School assembly with a reading and presentation by Grace Lin. If your Flamingo owns one of her books, she can bring it to get it signed.", pack:["A Grace Lin book to sign, if you have one"]},
                   {adult:1, what:"Paw Shop open, 7:45–10 a.m."},
                   {adult:1, what:"Matilda Jr. musical (7 p.m.)", more:"Ellis musical. Suggested donation $5. Also on Thursday."}],
-    "2026-11-19":[{kid:"🎻", what:"Field trip to the Pittsburgh Symphony", more:"K and 1st grade go to the PSO's “Once Upon a Book” Schooltime concert, with author and illustrator Grace Lin reading her book alongside the orchestra. Buses leave Ellis promptly at 9:15 a.m. and are expected back around noon.", wear:"Formal jumper uniform for the field trip (not the PE uniform)", pack:["Bagged lunch"]},
+    "2026-11-19":[{kid:"🎻", what:"Field trip to the Pittsburgh Symphony", more:"K and 1st grade go to the PSO's “Once Upon a Book” Schooltime concert, with author and illustrator Grace Lin reading her book alongside the orchestra. Buses leave Ellis promptly at 9:15 a.m. and are expected back around noon.", wear:"Formal jumper uniform with a white shirt for the field trip", pack:["Bagged lunch"]},
                   {adult:1, what:"Matilda Jr. musical (7 p.m.)", more:"Second night of the Ellis musical. Suggested donation $5."}],
     "2026-11-20":[{kid:"👵", what:"GrandFriends Day", more:"Grandparents and special friends visit Pre-K and K from 8 to 11 a.m. It's a full school day, but girls may go home with their GrandFriend afterward. If pickup is different from usual, fill out the school's dismissal form and tell the teachers and Ms. Sacco."},
                   {adult:1, what:"GrandFriends Day dismissal form", more:"Fill out the dismissal form from the Nov 13 Lower School email if your Flamingo is leaving with her GrandFriend."}],
@@ -469,7 +470,10 @@ footer a{color:var(--green)}
     {w:"on", week:"Oct 5"},
     {w:"and", week:"Oct 12"},
     {w:"to", week:"Oct 19"},
-    {w:"for", week:"Oct 26"}
+    {w:"for", week:"Oct 26"},
+    {w:"go", week:"Nov 9"},
+    {w:"I", week:"Nov 16"},
+    {w:"like", week:"Nov 16"}
   ];
   const LETTERS = [
     {l:"Mm", week:"Sep 14"},
@@ -479,7 +483,9 @@ footer a{color:var(--green)}
     {l:"Hh", week:"Oct 5"},
     {l:"Gg", week:"Oct 12"},
     {l:"Cc", week:"Oct 19"},
-    {l:"Dd", week:"Oct 26"}
+    {l:"Dd", week:"Oct 26"},
+    {l:"Tt", week:"Nov 9"},
+    {l:"Ii", week:"Nov 16"}
   ];
 
   // ===================================================================
@@ -488,7 +494,11 @@ footer a{color:var(--green)}
   //  then paste them between the braces below and commit.
   // ===================================================================
   const UPDATES = {
-    "2026-09-16": {as:1, why:"Make-up for the half-day first day of school (Sep 1), per the Sep 14–18 Flamingo newsletter."}
+    "2026-09-16": {as:1, why:"Make-up for the half-day first day of school (Sep 1), per the Sep 14–18 Flamingo newsletter."},
+    "2026-11-16": {day:5, why:"Day 5 per the Nov 16–20 Flamingo newsletter. The printed calendar said Day 7."},
+    "2026-11-17": {day:6, why:"Day 6 per the Nov 16–20 Flamingo newsletter. The printed calendar said Day 8."},
+    "2026-11-19": {day:7, why:"Day 7 per the Nov 16–20 Flamingo newsletter. The printed calendar said Day 1."},
+    "2026-11-20": {day:8, why:"Day 8 per the Nov 16–20 Flamingo newsletter. The printed calendar said Day 2."}
   };
   // ===================================================================
 
