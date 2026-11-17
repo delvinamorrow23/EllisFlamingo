@@ -1,5 +1,5 @@
 // Bump CACHE whenever you change index.html, so phones pick up the new version.
-const CACHE = "day-finder-v10";
+const CACHE = "day-finder-v11";
 const ASSETS = ["./", "./index.html", "./manifest.webmanifest", "./icon-192.png", "./icon-512.png"];
 
 self.addEventListener("install", e => {
